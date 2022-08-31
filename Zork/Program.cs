@@ -6,25 +6,46 @@ namespace Zork
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Zork!");
+            bool isRunning = true;
 
-            string inputString = Console.ReadLine().Trim();
-            Commands command = ToCommand(inputString);
-            Console.WriteLine(command);
+            Console.WriteLine("Welcome to Zork!");
+            while (isRunning)
+            {
+                Console.Write("> ");
+                string inputString = Console.ReadLine().Trim();
+                Commands command = ToCommand(inputString);
+
+                string outputString;
+                switch (command)
+                {
+                    case Commands.QUIT:
+                        isRunning = false;
+                        outputString = "Thank you for playing!";
+                        break;
+
+                    case Commands.LOOK:
+                        outputString = "This is an open field west of a white house, with a boarded front door.\nA rubber mat saying 'Welcome to Zork!' lies by the door.";
+                        break;
+
+                    case Commands.NORTH:
+                    case Commands.SOUTH:
+                    case Commands.EAST:
+                    case Commands.WEST:
+                        outputString = $"You moved {command}.";
+                        break;
+
+                    default:
+                        outputString = "Unknown command.";
+                        break;
+                }
+                Console.WriteLine(outputString);
+            }
         }
 
-        private static Commands ToCommand(string commandString)
+        static Commands ToCommand(string commandString)
         {
-            //if (Enum.TryParse<Commands>(commandString, true, out Commands command))
-            //{
-            //    return command;
-            //}
-            //else
-            //{
-            //    return Commands.UNKNOWN;
-            //}
-
             return Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
         }
     }
 }
+
