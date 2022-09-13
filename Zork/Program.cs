@@ -1,27 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Zork
 {
     class Program
     {
-        //static string CurrentRoom
-        //{
-        //    get
-        //    {
-        //        return _rooms[_location.Row, _location.Column];
-        //    }
-        //}
+        static string CurrentRoom
+        {
+            get
+            {
+                return _rooms[_location.Row, _location.Column];
+            }
+        }
 
         static void Main(string[] args)
         {
-            Room westOfHouse = new Room();
+            //Room westOfHouse = new Room();
 
             bool isRunning = true;
 
             Console.WriteLine("Welcome to Zork!");
             while (isRunning)
             {
-                Console.Write($"> {_rooms[_location.Row, _location.Column]}\n");
+                //Console.Write($"> {_rooms[_location.Row, _location.Column]}\n");
+                Console.WriteLine(CurrentRoom);
                 string inputString = Console.ReadLine().Trim();
                 Commands command = ToCommand(inputString);
 
@@ -34,7 +36,9 @@ namespace Zork
                         break;
 
                     case Commands.LOOK:
-                        outputString = CurrentRoom.Description;
+                        outputString = "A rubber mat saying 'Welcome to Zork!' lies by the door.";
+                        //Console.WriteLine($"{outputString}");
+                        //outputString = CurrentRoom.Description;
                         break;
 
                     case Commands.NORTH:
@@ -56,24 +60,18 @@ namespace Zork
                         outputString = "Unknown command.";
                         break;
                 }
-
                 Console.WriteLine(outputString);
             }
 
         }
-
-        static Commands ToCommand(string commandString)
-        {
-            return Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
-        }
-
         static bool Move(Commands command)
         {
-            bool didMove = false;
+            Assert.IsTrue(IsDirection(command), "Invnalid direction.");
 
+            bool didMove = false;
             switch (command)
             {
-                case Commands.NORTH when _location.Row > _rooms.GetLength(0) - 1:
+                case Commands.NORTH when _location.Row < _rooms.GetLength(0) - 1:
                     _location.Row++;
                     didMove = true;
                     break;
@@ -95,27 +93,32 @@ namespace Zork
             }
             return didMove;
         }
+        static Commands ToCommand(string commandString) =>
+            Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
 
-        private static void InitializeRoomDescriptions()
+        static bool IsDirection(Commands command) => Directions.Contains(command);
+
+        //private static void InitializeRoomDescriptions()
+        //{
+        //    _rooms[0, 0].Description = "You are on";
+        //}
+
+        static readonly string[,] _rooms =
         {
-            _rooms[0, 0].Description = "You are on";
-        }
+            {"Rocky Trail", "South of House" ,"Canyon View"},
+            {"Forest", "West of House","Behind House"},
+            {"Dense Woods", "North of House","Clearing" }
+        };
 
-        private static readonly Room[,] _rooms= {{new Room( "Rocky Trail"), new Room("South of House"), new Room("Canyon View")},
-                                                      { new Room("Forest"), new Room("West of House"), new Room("Behind House")},
-                                                      {new Room("Dense Woods"), new Room("North of House"), new Room("Clearing") }};
-        //private static int _location.Row = 1;
-        //private static int _currentLocationColumn = 1;
+        static readonly List<Commands> Directions = new List<Commands>
+        {
+            Commands.NORTH,
+            Commands.SOUTH,
+            Commands.EAST,
+            Commands.WEST
+        };
 
-        //private static (int Row, int Colomn) _location=(1,1);
-
-        private static Location _location = new Location() { Row = 1, Column = 1 };
-    }
-
-    internal class Location
-    {
-        public int Row;
-        public int Column;
+        static (int Row, int Column) _location = (1, 1);
     }
 }
 
