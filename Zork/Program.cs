@@ -12,17 +12,29 @@ namespace Zork
 
         static void Main(string[] args)
         {
+            Room previousRoom = null;
             bool isRunning = true;
 
+
+            InitializeRoomDescriptions();
             Console.WriteLine("Welcome to Zork!");
+
             while (isRunning)
             {
-                Console.Write($"> {Rooms[_location.Row, _location.Column]}\n");
-                //Console.WriteLine(CurrentRoom);
+                Console.WriteLine(CurrentRoom);
+                if (previousRoom != CurrentRoom)
+                {
+                    Console.WriteLine(CurrentRoom.Description);
+                    previousRoom = CurrentRoom;
+                }
+
+                Console.Write("> ");
+
                 string inputString = Console.ReadLine().Trim();
                 Commands command = ToCommand(inputString);
 
                 string outputString;
+
                 switch (command)
                 {
                     case Commands.QUIT:
@@ -31,7 +43,6 @@ namespace Zork
                         break;
 
                     case Commands.LOOK:
-                        Console.WriteLine(CurrentRoom.Description);
                         outputString = CurrentRoom.Description;
                         break;
 
@@ -59,6 +70,7 @@ namespace Zork
 
 
         }
+
         static bool Move(Commands command)
         {
             Assert.IsTrue(IsDirection(command), "Invnalid direction.");
@@ -103,17 +115,25 @@ namespace Zork
         static (int Row, int Column) _location = (1, 1);
         static void InitializeRoomDescriptions()
         {
-            Rooms[0, 0].Description = "You are on a rock-strewn trail.";
-            Rooms[0, 1].Description = "You are facing the south side of a white house. There is no door here, and all the windows are barred.";
-            Rooms[0, 2].Description = "You are at the top of the Great Canyon on its south wall.";
+            var roomMap = new Dictionary<string, Room>();
 
-            Rooms[1, 0].Description = "This is a forest, with trees in all direction around.";
-            Rooms[1, 1].Description = "This is an open field west of a while house, with a boarded front door";
-            Rooms[1, 2].Description = "You are behind the white house. In one corner of the house there is a small window which is slightly ajar.";
+            foreach (Room room in Rooms)
+            {
+                roomMap[room.Name] = room;
+            }
 
-            Rooms[2, 0].Description = "This is dimly lift forest, with large trees all aroubd. To the east, there appears to be sunlight.";
-            Rooms[2, 1].Description = "You are facing the north side of a white house. There is no door here, and all the windows are barred.";
-            Rooms[2, 2].Description = "You are in a clearing, with a forest surrounding you on the west and south.";
+            roomMap["Rocky Trail"].Description = "You are on a rock-strewn trail.";
+            roomMap["South of House"].Description = "You are facing the south side of a white house. There is no door here, and all the windows are barred.";
+            roomMap["Canyon View"].Description = "You are at the top of the Great Canyon on its south wall.";
+
+            roomMap["Forest"].Description = "This is a forest, with trees in all direction around.";
+            roomMap["West of House"].Description = "This is an open field west of a while house, with a boarded front door";
+            roomMap["Behind House"].Description = "You are behind the white house. In one corner of the house there is a small window which is slightly ajar.";
+
+            roomMap["Dense Woods"].Description = "This is dimly lift forest, with large trees all aroubd. To the east, there appears to be sunlight.";
+            roomMap["North of House"].Description = "You are facing the north side of a white house. There is no door here, and all the windows are barred.";
+            roomMap["Clearing"].Description = "You are in a clearing, with a forest surrounding you on the west and south.";
+
         }
 
         static readonly List<Commands> Directions = new List<Commands>
@@ -123,9 +143,6 @@ namespace Zork
             Commands.EAST,
             Commands.WEST
         };
-
-
-
 
 
     }
