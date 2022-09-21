@@ -4,168 +4,22 @@ using System.IO;
 
 namespace Zork
 {
-    enum Fields
-    {
-        Name,
-        Description
-    }
-
     class Program
     {
-
-        static readonly Dictionary<string, Room> RoomMap;
-        static Program() //static constructor
-        {
-            RoomMap = new Dictionary<string, Room>();
-
-            foreach (Room room in Rooms)
-            {
-                RoomMap[room.Name] = room;
-            }
-        }
-        public static Room CurrentRoom
-        {
-            get => Rooms[_location.Row, _location.Column];
-        }
-
         static void Main(string[] args)
         {
-            Room previousRoom = null;
-            bool isRunning = true;
+            const string defaultRoomsFilename = "Rooms.txt";
+            string roomsFilename = (args.Length > 0 ? args[(int)CommandLineArguments.RoomsFilename] : defaultRoomsFilename);
 
-            string roomsFilename = "Rooms.txt"
- ; InitializeRoomDescriptions(roomsFilename);
+            Game game = new Game();
             Console.WriteLine("Welcome to Zork!");
-
-            while (isRunning)
-            {
-                Console.WriteLine(CurrentRoom);
-                if (previousRoom != CurrentRoom)
-                {
-                    Console.WriteLine(CurrentRoom.Description);
-                    previousRoom = CurrentRoom;
-                }
-
-                Console.Write("> ");
-
-                string inputString = Console.ReadLine().Trim();
-                Commands command = ToCommand(inputString);
-
-                string outputString;
-
-                switch (command)
-                {
-                    case Commands.QUIT:
-                        isRunning = false;
-                        outputString = "Thank you for playing!";
-                        break;
-
-                    case Commands.LOOK:
-                        outputString = CurrentRoom.Description;
-                        break;
-
-                    case Commands.NORTH:
-                    case Commands.SOUTH:
-                    case Commands.EAST:
-                    case Commands.WEST:
-                        if (Move(command))
-                        {
-                            outputString = $"You moved {command}.";
-                        }
-                        else
-                        {
-                            outputString = "The way is shut!";
-                        }
-
-                        break;
-
-                    default:
-                        outputString = "Unknown command.";
-                        break;
-                }
-                Console.WriteLine(outputString);
-            }
-
-
+            game.Run();
         }
-
-        static bool Move(Commands command)
+        enum CommandLineArguments
         {
-            Assert.IsTrue(IsDirection(command), "Invnalid direction.");
-
-            bool didMove = false;
-            switch (command)
-            {
-                case Commands.NORTH when _location.Row < Rooms.GetLength(0) - 1:
-                    _location.Row++;
-                    didMove = true;
-                    break;
-
-                case Commands.SOUTH when _location.Row > 0:
-                    _location.Row--;
-                    didMove = true;
-                    break;
-
-                case Commands.EAST when _location.Column < Rooms.GetLength(1) - 1:
-                    _location.Column++;
-                    didMove = true;
-                    break;
-
-                case Commands.WEST when _location.Column > 0:
-                    _location.Column--;
-                    didMove = true;
-                    break;
-            }
-            return didMove;
+            RoomsFilename = 0
         }
-        static Commands ToCommand(string commandString) =>
-            Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
-
-        static bool IsDirection(Commands command) => Directions.Contains(command);
-
-        static readonly Room[,] Rooms =
-        {
-            {new Room("Rocky Trail"), new Room("South of House") ,new Room("Canyon View")},
-            {new Room("Forest"), new Room("West of House"),new Room("Behind House")},
-            {new Room("Dense Woods"), new Room("North of House"),new Room("Clearing")}
-        };
-
-        static (int Row, int Column) _location = (1, 1);
-        static void InitializeRoomDescriptions(string roomFileName)
-        {
-            const string fieldDelmiter = "##";
-            const int expectedFieldCount = 2;
-
-            string[] lines = File.ReadAllLines(roomFileName);
-
-            foreach (string line in lines)
-            {
-                string[] fields = line.Split(fieldDelmiter);
-                if (fields.Length != expectedFieldCount)
-                {
-                    throw new InvalidDataException("Invalid Recrod");
-                }
-                string name = fields[(int)Fields.Name];
-                string description = fields[(int)Fields.Description];
-
-                RoomMap[name].Description = description;
-            }
-
-        }
-
-        static readonly List<Commands> Directions = new List<Commands>
-        {
-            Commands.NORTH,
-            Commands.SOUTH,
-            Commands.EAST,
-            Commands.WEST
-        };
-
-
     }
-
-
-
 }
 
 
