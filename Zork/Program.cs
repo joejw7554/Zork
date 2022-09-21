@@ -33,8 +33,8 @@ namespace Zork
             Room previousRoom = null;
             bool isRunning = true;
 
-
-            InitializeRoomDescriptions();
+            string roomsFilename = "Rooms.txt"
+ ; InitializeRoomDescriptions(roomsFilename);
             Console.WriteLine("Welcome to Zork!");
 
             while (isRunning)
@@ -138,9 +138,9 @@ namespace Zork
 
             string[] lines = File.ReadAllLines(roomFileName);
 
-            foreach(string line in lines)
+            foreach (string line in lines)
             {
-                string[] fields=line.Split(fieldDelmiter);
+                string[] fields = line.Split(fieldDelmiter);
                 if (fields.Length != expectedFieldCount)
                 {
                     throw new InvalidDataException("Invalid Recrod");
