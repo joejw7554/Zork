@@ -4,7 +4,7 @@ using System.Dynamic;
 
 namespace Zork
 {
-    internal class Room
+    public class Room
     {
         Program location = new Program();
         public string Name { get; }

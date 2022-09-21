@@ -2,7 +2,7 @@
 
 namespace Zork
 {
-    internal class World
+    public class World
     {
         public Room[,] Rooms
         {

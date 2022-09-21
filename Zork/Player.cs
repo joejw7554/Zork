@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Zork
 {
-    internal class Player
+    public class Player
     {
         public Room CurrentRoom
         {
