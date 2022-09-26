@@ -7,19 +7,18 @@ namespace Zork
 {
     public class Game
     {
-        enum Fields
-        {
-            Name,
-            Description
-        }
+      
         public World World { get; set; }
         public Player Player { get; set; }
 
         public void Run()
         {
+            var Rooms = new Room();
+
             bool isRunning = true;
             Room previousRoom = null;
-            InitializeRoomDescriptions(roomsFilename);
+            string roomsFileName = "Rooms.txt";
+            InitializeRoomDescriptions(roomsFileName);
 
             while (isRunning)
             {
@@ -35,7 +34,7 @@ namespace Zork
                 string inputString = Console.ReadLine().Trim();
                 Commands command = ToCommand(inputString);
 
-                string outputString;
+                string outputString=null;
 
                 switch (command)
                 {
@@ -59,7 +58,6 @@ namespace Zork
                         {
                             outputString = "The way is shut!";
                         }
-
                         break;
 
                     default:
@@ -68,62 +66,29 @@ namespace Zork
                 }
                 Console.WriteLine(outputString);
             }
-        }
 
-        void InitializeRoomDescriptions(string roomFileName)
-        {
-            const string fieldDelmiter = "##";
-            const int expectedFieldCount = 2;
-
-            string[] lines = File.ReadAllLines(roomFileName);
-
-            foreach (string line in lines)
-            {
-                string[] fields = line.Split(fieldDelmiter);
-                if (fields.Length != expectedFieldCount)
-                {
-                    throw new InvalidDataException("Invalid Recrod");
-                }
-                string name = fields[(int)Fields.Name];
-                string description = fields[(int)Fields.Description];
-
-                RoomMap[name].Description = description;
-            }
         }
 
         static Commands ToCommand(string commandString) => Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
 
-        static (int Row, int Column) _location = (1, 1);
+        enum Fields
+        {
+            Name,
+            Description
+        }
+
         static void InitializeRoomDescriptions(string roomsFileName)
         {
-            var rooms = JsonConvert.DeserializeObject<Room[]>(File.ReadAllText(roomsFileName));
-            foreach (Room room in rooms)
-            {
-                RoomMap[room.Name].Description = room.Description;
-            }
+            Rooms = JsonConvert.DeserializeObject<Room[,]>(File.ReadAllText(roomsFileName));
+        }
+       
+        enum CommandLineArguments
+        {
+            RoomsFilename = 0
         }
         static readonly Dictionary<string, Room> RoomMap;
-        static Program()
-        {
-            RoomMap = new Dictionary<string, Room>();
+       
 
-            foreach (Room room in Rooms)
-            {
-                RoomMap[room.Name] = room;
-            }
-        }
     }
 
-    //static bool IsDirection(Commands command) => Directions.Contains(command);
-
-    //static readonly List<Commands> Directions = new List<Commands>
-    //{
-    //    Commands.NORTH,
-    //    Commands.SOUTH,
-    //    Commands.EAST,
-    //    Commands.WEST
-    //};
-
-
-}
 }

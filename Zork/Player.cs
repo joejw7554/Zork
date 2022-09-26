@@ -23,8 +23,6 @@ namespace Zork
 
         public bool Move(Commands command)
         {
-            Assert.IsTrue(IsDirection(command), "Invnalid direction.");
-
             bool didMove = false;
             switch (command)
             {
@@ -50,5 +48,15 @@ namespace Zork
             }
             return didMove;
         }
+
+        static readonly List<Commands> Directions = new List<Commands>
+        {
+            Commands.NORTH,
+            Commands.SOUTH,
+            Commands.EAST,
+            Commands.WEST
+        };
+
+        static bool IsDirection(Commands command) => Directions.Contains(command);
     }
 }
