@@ -4,58 +4,42 @@ using System.IO;
 
 namespace Zork
 {
-
-
     class Program
     {
-        enum CommandLineArguments
-        {
-            RoomsFilename = 0
-        }
 
-        static Program()
+        static readonly Dictionary<string, Room> RoomMap;
+        static Program() //static constructor
         {
-            var _roomMap = new Dictionary<string, Room>();
+            RoomMap = new Dictionary<string, Room>();
+
             foreach (Room room in Rooms)
             {
-                _roomMap[room.Name] = room;
+                RoomMap[room.Name] = room;
             }
         }
-        static void Main(string[] args)
+        public static Room CurrentRoom
         {
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-             public Room CurrentRoom
-        {
-            get => _world.Rooms[_location.Row, _location.Column];
+            get => Rooms[_location.Row, _location.Column];
         }
 
-        const string defaultRoomsFilename = "Rooms.txt";
-            string roomsFilename = (args.Length > 0 ? args[(int)CommandLineArguments.RoomsFilename] : defaultRoomsFilename);
+        static void Main(string[] args)
+        {
+            Room previousRoom = null;
+
+            const string defaultRoomsFilename = @"Content\Rooms.txt";
+            string roomsFilename = (args.Length > 0 ? args[(int)CommandLineArguements.RoomsFilename] : defaultRoomsFilename);
+            InitializeRoomDescriptions(roomsFilename);
+
+            Console.WriteLine("Welcome to Zork!");
 
             bool isRunning = true;
-            Room previousRoom = null;
-            string roomsFileName = "Rooms.txt";
-            InitializeRoomDescriptions(roomsFileName);
-=======
-=======
->>>>>>> parent of c194d33 (Zork 4.1 (still working))
-=======
->>>>>>> parent of c194d33 (Zork 4.1 (still working))
-
-            InitializeRoomDescriptions();
-            Console.WriteLine("Welcome to Zork!");
->>>>>>> parent of c194d33 (Zork 4.1 (still working))
-
             while (isRunning)
             {
-                Console.WriteLine(Player.CurrentRoom);
-                if (previousRoom != Player.CurrentRoom)
+                Console.WriteLine(CurrentRoom);
+                if (previousRoom != CurrentRoom)
                 {
-                    Console.WriteLine(Player.CurrentRoom.Description);
-                    previousRoom = Player.CurrentRoom;
+                    Console.WriteLine(CurrentRoom.Description);
+                    previousRoom = CurrentRoom;
                 }
 
                 Console.Write("> ");
@@ -63,23 +47,24 @@ namespace Zork
                 string inputString = Console.ReadLine().Trim();
                 Commands command = ToCommand(inputString);
 
-                string outputString = null;
+                string outputString;
 
                 switch (command)
                 {
                     case Commands.QUIT:
                         isRunning = false;
+                        outputString = "Thank you for playing!";
                         break;
 
                     case Commands.LOOK:
-                        outputString = Player.CurrentRoom.Description;
+                        outputString = CurrentRoom.Description;
                         break;
 
                     case Commands.NORTH:
                     case Commands.SOUTH:
                     case Commands.EAST:
                     case Commands.WEST:
-                        if (Player.Move(command))
+                        if (Move(command))
                         {
                             outputString = $"You moved {command}.";
                         }
@@ -97,14 +82,8 @@ namespace Zork
             }
 
 
-            Game game = new Game();
-            Console.WriteLine("Welcome to Zork!");
-            game.Run();
-            Console.WriteLine("Thank you for playing!");
         }
 
-<<<<<<< HEAD
-=======
         static bool Move(Commands command)
         {
             Assert.IsTrue(IsDirection(command), "Invnalid direction.");
@@ -151,12 +130,12 @@ namespace Zork
         {
             const string fieldDelmiter = "##";
             const int expectedFieldCount = 2;
-
             string[] lines = File.ReadAllLines(roomFileName);
 
-            foreach(string line in lines)
+            foreach (string line in lines)
             {
-                string[] fields=line.Split(fieldDelmiter);
+                string[] fields = line.Split(fieldDelmiter);
+
                 if (fields.Length != expectedFieldCount)
                 {
                     throw new InvalidDataException("Invalid Recrod");
@@ -166,7 +145,16 @@ namespace Zork
 
                 RoomMap[name].Description = description;
             }
+        }
 
+        enum Fields
+        {
+            Name,
+            Description
+        }
+        enum CommandLineArguements
+        {
+            RoomsFilename = 0
         }
 
         static readonly List<Commands> Directions = new List<Commands>
@@ -178,8 +166,10 @@ namespace Zork
         };
 
 
->>>>>>> parent of c194d33 (Zork 4.1 (still working))
     }
+
+
+
 }
 
 
