@@ -25,7 +25,7 @@ namespace Zork
         {
             Room previousRoom = null;
 
-            const string defaultRoomsFilename = @"Cotent\Rooms.txt";
+            const string defaultRoomsFilename = @"Content\Rooms.txt";
             string roomsFilename = (args.Length > 0 ? args[(int)CommandLineArguements.RoomsFilename] : defaultRoomsFilename);
             InitializeRoomDescriptions(roomsFilename);
 
