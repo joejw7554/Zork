@@ -24,6 +24,7 @@ namespace Zork
         static void Main(string[] args)
         {
 
+<<<<<<< HEAD
              public Room CurrentRoom
         {
             get => _world.Rooms[_location.Row, _location.Column];
@@ -36,6 +37,11 @@ namespace Zork
             Room previousRoom = null;
             string roomsFileName = "Rooms.txt";
             InitializeRoomDescriptions(roomsFileName);
+=======
+
+            InitializeRoomDescriptions();
+            Console.WriteLine("Welcome to Zork!");
+>>>>>>> parent of c194d33 (Zork 4.1 (still working))
 
             while (isRunning)
             {
@@ -91,6 +97,82 @@ namespace Zork
             Console.WriteLine("Thank you for playing!");
         }
 
+<<<<<<< HEAD
+=======
+        static bool Move(Commands command)
+        {
+            Assert.IsTrue(IsDirection(command), "Invnalid direction.");
+
+            bool didMove = false;
+            switch (command)
+            {
+                case Commands.NORTH when _location.Row < Rooms.GetLength(0) - 1:
+                    _location.Row++;
+                    didMove = true;
+                    break;
+
+                case Commands.SOUTH when _location.Row > 0:
+                    _location.Row--;
+                    didMove = true;
+                    break;
+
+                case Commands.EAST when _location.Column < Rooms.GetLength(1) - 1:
+                    _location.Column++;
+                    didMove = true;
+                    break;
+
+                case Commands.WEST when _location.Column > 0:
+                    _location.Column--;
+                    didMove = true;
+                    break;
+            }
+            return didMove;
+        }
+        static Commands ToCommand(string commandString) =>
+            Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
+
+        static bool IsDirection(Commands command) => Directions.Contains(command);
+
+        static readonly Room[,] Rooms =
+        {
+            {new Room("Rocky Trail"), new Room("South of House") ,new Room("Canyon View")},
+            {new Room("Forest"), new Room("West of House"),new Room("Behind House")},
+            {new Room("Dense Woods"), new Room("North of House"),new Room("Clearing")}
+        };
+
+        static (int Row, int Column) _location = (1, 1);
+        static void InitializeRoomDescriptions(string roomFileName)
+        {
+            const string fieldDelmiter = "##";
+            const int expectedFieldCount = 2;
+
+            string[] lines = File.ReadAllLines(roomFileName);
+
+            foreach(string line in lines)
+            {
+                string[] fields=line.Split(fieldDelmiter);
+                if (fields.Length != expectedFieldCount)
+                {
+                    throw new InvalidDataException("Invalid Recrod");
+                }
+                string name = fields[(int)Fields.Name];
+                string description = fields[(int)Fields.Description];
+
+                RoomMap[name].Description = description;
+            }
+
+        }
+
+        static readonly List<Commands> Directions = new List<Commands>
+        {
+            Commands.NORTH,
+            Commands.SOUTH,
+            Commands.EAST,
+            Commands.WEST
+        };
+
+
+>>>>>>> parent of c194d33 (Zork 4.1 (still working))
     }
 }
 
