@@ -6,9 +6,8 @@ namespace Zork
 {
     class Program
     {
-
         static readonly Dictionary<string, Room> RoomMap;
-        static Program() //static constructor
+        static Program() 
         {
             RoomMap = new Dictionary<string, Room>();
 
@@ -26,7 +25,7 @@ namespace Zork
         {
             Room previousRoom = null;
 
-            const string defaultRoomsFilename = @"Content\Rooms.txt";
+            const string defaultRoomsFilename = @"Cotent\Rooms.txt";
             string roomsFilename = (args.Length > 0 ? args[(int)CommandLineArguements.RoomsFilename] : defaultRoomsFilename);
             InitializeRoomDescriptions(roomsFilename);
 
@@ -86,8 +85,6 @@ namespace Zork
 
         static bool Move(Commands command)
         {
-            Assert.IsTrue(IsDirection(command), "Invnalid direction.");
-
             bool didMove = false;
             switch (command)
             {
@@ -135,7 +132,6 @@ namespace Zork
             foreach (string line in lines)
             {
                 string[] fields = line.Split(fieldDelmiter);
-
                 if (fields.Length != expectedFieldCount)
                 {
                     throw new InvalidDataException("Invalid Recrod");
@@ -164,11 +160,7 @@ namespace Zork
             Commands.EAST,
             Commands.WEST
         };
-
-
     }
-
-
 
 }
 

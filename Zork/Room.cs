@@ -6,7 +6,6 @@ namespace Zork
 {
     public class Room
     {
-        Program location = new Program();
         public string Name { get; }
         public string Description { get; set; }
 
@@ -15,7 +14,6 @@ namespace Zork
             Name = name;
             Description = description;
         }
-
         public override string ToString() => Name;
     }
 }
