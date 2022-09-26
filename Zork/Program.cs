@@ -80,7 +80,6 @@ namespace Zork
                 Console.WriteLine(outputString);
             }
 
-
         }
 
         static bool Move(Commands command)
@@ -113,7 +112,6 @@ namespace Zork
         static Commands ToCommand(string commandString) =>
             Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
 
-        static bool IsDirection(Commands command) => Directions.Contains(command);
 
         static readonly Room[,] Rooms =
         {
