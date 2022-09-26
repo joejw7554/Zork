@@ -25,6 +25,7 @@ namespace Zork
         {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
              public Room CurrentRoom
         {
             get => _world.Rooms[_location.Row, _location.Column];
@@ -38,6 +39,8 @@ namespace Zork
             string roomsFileName = "Rooms.txt";
             InitializeRoomDescriptions(roomsFileName);
 =======
+=======
+>>>>>>> parent of c194d33 (Zork 4.1 (still working))
 
             InitializeRoomDescriptions();
             Console.WriteLine("Welcome to Zork!");
