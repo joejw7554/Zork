@@ -21,6 +21,8 @@ namespace Zork
             get => Rooms[_location.Row, _location.Column];
         }
 
+        static (int Row, int Column) _location = (1, 1);
+
         static void Main(string[] args)
         {
             Room previousRoom = null;
@@ -112,7 +114,6 @@ namespace Zork
         static Commands ToCommand(string commandString) =>
             Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
 
-
         static readonly Room[,] Rooms =
         {
             {new Room("Rocky Trail"), new Room("South of House") ,new Room("Canyon View")},
@@ -120,19 +121,18 @@ namespace Zork
             {new Room("Dense Woods"), new Room("North of House"),new Room("Clearing")}
         };
 
-        static (int Row, int Column) _location = (1, 1);
-        static void InitializeRoomDescriptions(string roomFileName)
+        static void InitializeRoomDescriptions(string roomFileName) 
         {
             const string fieldDelmiter = "##";
             const int expectedFieldCount = 2;
-            string[] lines = File.ReadAllLines(roomFileName);
+            string[] lines = File.ReadAllLines(roomFileName); // Read Line one by one
 
             foreach (string line in lines)
             {
                 string[] fields = line.Split(fieldDelmiter);
                 if (fields.Length != expectedFieldCount)
                 {
-                    throw new InvalidDataException("Invalid Recrod");
+                    throw new InvalidDataException("Invalid Record");
                 }
                 string name = fields[(int)Fields.Name];
                 string description = fields[(int)Fields.Description];
@@ -140,7 +140,6 @@ namespace Zork
                 RoomMap[name].Description = description;
             }
         }
-
         enum Fields
         {
             Name,
@@ -159,7 +158,6 @@ namespace Zork
             Commands.WEST
         };
     }
-
 }
 
 
