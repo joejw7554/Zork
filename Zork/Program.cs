@@ -7,30 +7,20 @@ namespace Zork
 {
     class Program
     {
-        static readonly Dictionary<string, Room> RoomMap;
-        static Program()
-        {
-            RoomMap = new Dictionary<string, Room>();
+        static (int Row, int Column) _location = (1, 1);
 
-            foreach (Room room in Rooms)
-            {
-                RoomMap[room.Name] = room;
-            }
-        }
         public static Room CurrentRoom
         {
             get => Rooms[_location.Row, _location.Column];
         }
 
-        static (int Row, int Column) _location = (1, 1);
-
         static void Main(string[] args)
         {
             Room previousRoom = null;
 
-            const string defaultRoomsFilename = @"Content\Rooms.txt";
+            const string defaultRoomsFilename = @"Content/Rooms.json";
             string roomsFilename = (args.Length > 0 ? args[(int)CommandLineArguements.RoomsFilename] : defaultRoomsFilename);
-            InitializeRoomDescriptions(roomsFilename);
+            InitializeRooms(roomsFilename);
 
             Console.WriteLine("Welcome to Zork!");
 
@@ -115,21 +105,10 @@ namespace Zork
         static Commands ToCommand(string commandString) =>
             Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
 
-        static readonly Room[,] Rooms =
-        {
-            {new Room("Rocky Trail"), new Room("South of House") ,new Room("Canyon View")},
-            {new Room("Forest"), new Room("West of House"),new Room("Behind House")},
-            {new Room("Dense Woods"), new Room("North of House"),new Room("Clearing")}
-        };
+        static Room[,] Rooms;
 
-        static void InitializeRoomDescriptions(string roomFileName)
-        {
-            var rooms = JsonConvert.DeserializeObject<Room[]>(File.ReadAllText(roomFileName));
-            foreach (Room room in rooms)
-            {
-                RoomMap[room.Name].Description = room.Description;
-            }
-        }
+        static void InitializeRooms(string roomFileName) => Rooms = JsonConvert.DeserializeObject<Room[,]>(File.ReadAllText(roomFileName));
+      
         enum Fields
         {
             Name,
