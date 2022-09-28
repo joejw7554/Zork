@@ -8,7 +8,6 @@ namespace Zork
     class Program
     {
         static (int Row, int Column) _location = (1, 1);
-
         public static Room CurrentRoom
         {
             get => Rooms[_location.Row, _location.Column];
