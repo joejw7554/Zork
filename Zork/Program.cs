@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -7,7 +8,7 @@ namespace Zork
     class Program
     {
         static readonly Dictionary<string, Room> RoomMap;
-        static Program() 
+        static Program()
         {
             RoomMap = new Dictionary<string, Room>();
 
@@ -65,7 +66,7 @@ namespace Zork
                     case Commands.SOUTH:
                     case Commands.EAST:
                     case Commands.WEST:
-                        if (Move(command))
+                        if (Move(command)) //Move Character in the array
                         {
                             outputString = $"You moved {command}.";
                         }
@@ -121,23 +122,12 @@ namespace Zork
             {new Room("Dense Woods"), new Room("North of House"),new Room("Clearing")}
         };
 
-        static void InitializeRoomDescriptions(string roomFileName) 
+        static void InitializeRoomDescriptions(string roomFileName)
         {
-            const string fieldDelmiter = "##";
-            const int expectedFieldCount = 2;
-            string[] lines = File.ReadAllLines(roomFileName); // Read Line one by one
-
-            foreach (string line in lines)
+            var rooms = JsonConvert.DeserializeObject<Room[]>(File.ReadAllText(roomFileName));
+            foreach (Room room in rooms)
             {
-                string[] fields = line.Split(fieldDelmiter);
-                if (fields.Length != expectedFieldCount)
-                {
-                    throw new InvalidDataException("Invalid Record");
-                }
-                string name = fields[(int)Fields.Name];
-                string description = fields[(int)Fields.Description];
-
-                RoomMap[name].Description = description;
+                RoomMap[room.Name].Description = room.Description;
             }
         }
         enum Fields
