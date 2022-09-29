@@ -55,7 +55,7 @@ namespace Zork
                     case Commands.SOUTH:
                     case Commands.EAST:
                     case Commands.WEST:
-                        if (Move(command)) //Move Character in the array
+                        if (Move(command)) 
                         {
                             outputString = $"You moved {command}.";
                         }
