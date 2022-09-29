@@ -7,7 +7,6 @@ namespace Zork
 {
     class Program
     {
-        static (int Row, int Column) _location = (1, 1);
         public static Room CurrentRoom
         {
             get => Rooms[_location.Row, _location.Column];
@@ -105,6 +104,8 @@ namespace Zork
             Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
 
         static Room[,] Rooms;
+
+        static (int Row, int Column) _location = (1, 1);
 
         static void InitializeRooms(string roomFileName) => Rooms = JsonConvert.DeserializeObject<Room[,]>(File.ReadAllText(roomFileName));
       
