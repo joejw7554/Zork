@@ -108,11 +108,6 @@ namespace Zork
 
         static void InitializeRooms(string roomFileName) => Rooms = JsonConvert.DeserializeObject<Room[,]>(File.ReadAllText(roomFileName));
       
-        enum Fields
-        {
-            Name,
-            Description
-        }
         enum CommandLineArguements
         {
             RoomsFilename = 0
