@@ -73,33 +73,7 @@ namespace Zork
 
         }
 
-        static bool Move(Commands command)
-        {
-            bool didMove = false;
-            switch (command)
-            {
-                case Commands.NORTH when _location.Row < Rooms.GetLength(0) - 1:
-                    _location.Row++;
-                    didMove = true;
-                    break;
-
-                case Commands.SOUTH when _location.Row > 0:
-                    _location.Row--;
-                    didMove = true;
-                    break;
-
-                case Commands.EAST when _location.Column < Rooms.GetLength(1) - 1:
-                    _location.Column++;
-                    didMove = true;
-                    break;
-
-                case Commands.WEST when _location.Column > 0:
-                    _location.Column--;
-                    didMove = true;
-                    break;
-            }
-            return didMove;
-        }
+       
         static Commands ToCommand(string commandString) =>
             Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
 

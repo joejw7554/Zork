@@ -12,5 +12,10 @@ namespace Zork
             Description = description;
         }
         public override string ToString() => Name;
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }
