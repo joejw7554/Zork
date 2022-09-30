@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Data.Common;
 
 namespace Zork
 {
@@ -30,17 +29,16 @@ namespace Zork
             LocationName = startingLocation;
         }
 
-        static bool Move(Commands command)
+        public bool Move(Directions direction)
         {
-            bool isValidMove = CatalogLocation.Neighbors.TryGetValue(direction, out Room destination);
+            bool isValidMove = Location.Neighbors.TryGetValue(direction, out Room destination);
             if (isValidMove)
             {
-                CatalogLocation = destination;
+                Location = destination;
             }
-
             return isValidMove;
         }
 
-
     }
+
 }

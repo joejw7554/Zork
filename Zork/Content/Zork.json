@@ -15,7 +15,7 @@
         "Name": "North of House",
         "Description": "You are facing the north side of a white house. There is no door here, and all the windows are barred.",
         "Neighbors": {
-          "North": "Forset",
+          "North": "Forset2",
           "East": "Behind House",
           "West": "West of House"
         }
@@ -34,11 +34,12 @@
         "Neighbors": {
           "North": "North of House",
           "East": "Clearing",
-          "West": "South of House"
+          "South": "South of House"
         }
       },
       {
         "Name": "Forest 1",
+        "LookName":  "Forest",
         "Description": "This is a forest, with trees in all directions around you.",
         "Neighbors": {
           "South": "Forest 3",
@@ -47,17 +48,17 @@
       },
       {
         "Name": "Forest 2",
-        "Description": "This is a forest, with trees in all directions around you.",
+        "Description": "This is a dimly lit forest, with large trees all around. One particualaryl large tree with some low branches stands here",
         "Neighbors": {
-          "South": "Forest 3",
-          "East": "West of House"
+          "South": "Clearing",
+          "East": "Clearing"
         }
       },
       {
         "Name": "Forest3",
         "Description": "This is a dimly lit forest, with large trees all around. To the east, there appears to be sunlight.",
         "Neighbors": {
-          "South": "South of House",
+          "North": "South of House",
           "East": "Clearing"
         }
       },
@@ -66,7 +67,7 @@
         "Description": "YOu are in a clearing, with a forest wsurrounding you on the west and south.",
         "Neighbors": {
           "West": "Forest 2",
-          "SOuth": "Forest 3"
+          "South": "Forest 3"
         }
       }
     ]

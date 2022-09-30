@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 
 namespace Zork
@@ -12,17 +10,17 @@ namespace Zork
     {
         public HashSet<Room> Rooms { get; set; }
 
-        public Player SpawnPlayer()
-        {
-            return new Player(this, StartingLocation);
-        }
+        [JsonIgnore]
+        public IReadOnlyDictionary<string, Room> RoomsByName => mRoomsByName;
+
+        public Player SpawnPlayer() => new Player(this, StartingLocation);
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext Context)
         {
             mRoomsByName = Rooms.ToDictionary(room => room.Name, room => room);
 
-            foreach(Room room in Rooms)
+            foreach (Room room in Rooms)
             {
                 room.UpdateNeighbors(this);
             }

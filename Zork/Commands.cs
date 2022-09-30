@@ -4,10 +4,10 @@
     {
         QUIT,
         LOOK,
+        UNKNOWN,
         NORTH,
         SOUTH,
         EAST,
-        WEST,
-        UNKNOWN
+        WEST
     }
 }
