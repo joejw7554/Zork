@@ -24,8 +24,8 @@ namespace Zork
         public void Run()
         {
             Room previousRoom = null;
-            bool isRunning = true;
-            while (isRunning)
+            bool IsRuning = true;
+            while (IsRuning)
             {
                 Console.WriteLine(Player.Location);
                 if (previousRoom != Player.Location)
@@ -44,7 +44,7 @@ namespace Zork
                 switch (command)
                 {
                     case Commands.QUIT:
-                        isRunning = false;
+                        IsRuning = false;
                         break;
 
                     case Commands.LOOK:
