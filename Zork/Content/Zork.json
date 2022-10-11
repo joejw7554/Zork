@@ -15,7 +15,7 @@
         "Name": "North of House",
         "Description": "You are facing the north side of a white house. There is no door here, and all the windows are barred.",
         "Neighbors": {
-          "North": "Forset2",
+          "North": "Forest 2",
           "East": "Behind House",
           "West": "West of House"
         }
