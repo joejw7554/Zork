@@ -55,7 +55,7 @@
         }
       },
       {
-        "Name": "Forest3",
+        "Name": "Forest 3",
         "Description": "This is a dimly lit forest, with large trees all around. To the east, there appears to be sunlight.",
         "Neighbors": {
           "North": "South of House",
@@ -64,7 +64,7 @@
       },
       {
         "Name": "Clearing",
-        "Description": "YOu are in a clearing, with a forest wsurrounding you on the west and south.",
+        "Description": "You are in a clearing, with a forest surrounding you on the west and south.",
         "Neighbors": {
           "West": "Forest 2",
           "South": "Forest 3"
