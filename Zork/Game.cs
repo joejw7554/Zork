@@ -13,7 +13,7 @@ namespace Zork
         public Player Player { get; private set; }
 
         [JsonIgnore]
-        private bool IsRuning { get; set; }
+        private bool IsRunning { get; set; }
 
         public Game(World world, Player player)
         {
@@ -23,9 +23,9 @@ namespace Zork
 
         public void Run()
         {
+            IsRunning = true;
             Room previousRoom = null;
-            bool IsRuning = true;
-            while (IsRuning)
+            while (IsRunning)
             {
                 Console.WriteLine(Player.Location);
                 if (previousRoom != Player.Location)
@@ -34,21 +34,19 @@ namespace Zork
                     previousRoom = Player.Location;
                 }
 
-                Console.Write("> ");
+                Console.Write("\n> ");
 
-                string inputString = Console.ReadLine().Trim();
-                Commands command = ToCommand(inputString);
+                Commands command = ToCommand(Console.ReadLine().Trim());
 
-                string outputString;
 
                 switch (command)
                 {
                     case Commands.QUIT:
-                        IsRuning = false;
+                        IsRunning = false;
                         break;
 
                     case Commands.LOOK:
-                        outputString = Player.Location.Description;
+                        Console.WriteLine(Player.Location.Description);
                         break;
 
                     case Commands.NORTH:
@@ -63,7 +61,7 @@ namespace Zork
                         break;
 
                     default:
-                        outputString = "Unknown command.";
+                        Console.WriteLine("Unknown command.");
                         break;
                 }
             }
@@ -78,8 +76,6 @@ namespace Zork
             return game;
         }
         static Commands ToCommand(string commandString) => Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
-
-
     }
 
 }
