@@ -1,6 +1,17 @@
 ﻿{
   "World": {
     "StartingLocation": "West of House",
+
+    "Items": [
+      {
+        "Name": "Welcome Mat",
+        "Desciprtion": "A rubber mat with the words 'Welcome to Zork!' written on it."
+      },
+      {
+        "Name": "Mailbox",
+        "Description": "A small mailbox."
+      }
+    ],
     "Rooms": [
       {
         "Name": "West of House",
@@ -9,8 +20,12 @@
           "North": "North of House",
           "South": "South of House",
           "West": "Forest 1"
-        }
+        },
+        "Inventory": [
+
+        ]
       },
+
       {
         "Name": "North of House",
         "Description": "You are facing the north side of a white house. There is no door here, and all the windows are barred.",
@@ -39,7 +54,7 @@
       },
       {
         "Name": "Forest 1",
-        "LookName":  "Forest",
+        "LookName": "Forest",
         "Description": "This is a forest, with trees in all directions around you.",
         "Neighbors": {
           "South": "Forest 3",

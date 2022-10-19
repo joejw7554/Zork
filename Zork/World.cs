@@ -9,6 +9,7 @@ namespace Zork
     public class World
     {
         public HashSet<Room> Rooms { get; set; }
+        public Item[] Items { get; }
 
         [JsonIgnore]
         public IReadOnlyDictionary<string, Room> RoomsByName => mRoomsByName;
@@ -23,6 +24,16 @@ namespace Zork
             foreach (Room room in Rooms)
             {
                 room.UpdateNeighbors(this);
+            }
+        }
+
+        public World(Item[] items)
+        {
+            Items = items;
+            ItemByName = new Dictionary<string, Item>();
+            foreach (Item item in Items)
+            {
+                ItemByName.Add(item.Name, item);
             }
         }
 
