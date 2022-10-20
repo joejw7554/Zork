@@ -1,7 +1,6 @@
 ﻿{
   "World": {
     "StartingLocation": "West of House",
-
     "Items": [
       {
         "Name": "Welcome Mat",
@@ -21,8 +20,9 @@
           "South": "South of House",
           "West": "Forest 1"
         },
-        "Inventory": [
-
+        "InventoryNames": [
+          "Welcome Mat",
+          "Mailbox"
         ]
       },
 
@@ -33,7 +33,10 @@
           "North": "Forest 2",
           "East": "Behind House",
           "West": "West of House"
-        }
+        },
+        "InventoryNames": [
+
+        ]
       },
       {
         "Name": "South of House",
@@ -41,7 +44,10 @@
         "Neighbors": {
           "East": "Behind House",
           "West": "West of House"
-        }
+        },
+        "InventoryNames": [
+
+        ]
       },
       {
         "Name": "Behind House",
@@ -50,7 +56,10 @@
           "North": "North of House",
           "East": "Clearing",
           "South": "South of House"
-        }
+        },
+        "InventoryNames": [
+
+        ]
       },
       {
         "Name": "Forest 1",
@@ -59,15 +68,21 @@
         "Neighbors": {
           "South": "Forest 3",
           "East": "West of House"
-        }
+        },
+        "InventoryNames": [
+
+        ]
       },
       {
         "Name": "Forest 2",
-        "Description": "This is a dimly lit forest, with large trees all around. One particualaryl large tree with some low branches stands here",
+        "Description": "This is a dimly lit forest, with large trees all around. One particularly large tree with some low branches stands here",
         "Neighbors": {
           "South": "Clearing",
           "East": "Clearing"
-        }
+        },
+        "InventoryNames": [
+
+        ]
       },
       {
         "Name": "Forest 3",
@@ -75,7 +90,10 @@
         "Neighbors": {
           "North": "South of House",
           "East": "Clearing"
-        }
+        },
+        "InventoryNames": [
+
+        ]
       },
       {
         "Name": "Clearing",
@@ -83,7 +101,10 @@
         "Neighbors": {
           "West": "Forest 2",
           "South": "Forest 3"
-        }
+        },
+        "InventoryNames": [
+
+        ]
       }
     ]
   }

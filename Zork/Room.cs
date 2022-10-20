@@ -7,24 +7,28 @@ namespace Zork
 {
     public class Room : IEquatable<Room>
     {
-        [JsonProperty(Order = 1)] public string Name { get; private set; }
-        [JsonProperty(Order = 2)] public string Description { get; set; }
-        [JsonProperty(PropertyName = "Neighbors", Order = 3)] private Dictionary<Directions, string> NeighborNames { get; set; }
+        [JsonProperty(Order = 1)]
+        public string Name { get; private set; }
+        [JsonProperty(Order = 2)]
+        public string Description { get; set; }
+        [JsonProperty(PropertyName = "Neighbors", Order = 3)]
+        private Dictionary<Directions, string> NeighborNames { get;  set; }
+
         [JsonIgnore]
         public List<Item> Inventory { get; private set; }
-        [JsonProperty("Inventory")]
+        [JsonProperty]
         private string[] InventoryNames { get; set; }
 
-        public Room(string name, string description, Dictionary<Directions, string> neighbornames, List<Item> inventory, string[] inventoryNames)
+        public Room(string name, string description, Dictionary<Directions, string> neighborNames, string[] inventoryNames)
         {
             Name = name;
             Description = description;
-            NeighborNames = neighbornames ?? new Dictionary<Directions, string>();
+            NeighborNames = neighborNames ?? new Dictionary<Directions, string>();
             InventoryNames = inventoryNames ?? new string[0];
         }
 
         [JsonIgnore]
-        public IReadOnlyDictionary<Directions, Room> Neighbors { get; private set; }
+        public Dictionary<Directions, Room> Neighbors { get; private set; }
 
         public static bool operator ==(Room lhs, Room rhs)
         {
@@ -61,15 +65,6 @@ namespace Zork
                          let room = world.RoomsByName.GetValueOrDefault(entry.Value)
                          where room != null
                          select (Direction: entry.Key, Room: room)).ToDictionary(pair => pair.Direction, pair => pair.Room);
-
-            //Neighbors= new Dictionary<Directions, Room>();
-            //foreach(KeyValuePair<directions,string> neighborName in NeighborNames)
-            //{
-            //Neighbors.Add(neighborName.Key,world.RoomsByname)
-            //}
-            //NeighborNames=null;
         }
-
-
     }
 }
