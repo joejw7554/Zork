@@ -8,6 +8,9 @@
         NORTH,
         SOUTH,
         EAST,
-        WEST
+        WEST,
+        TAKE,
+        DROP,
+        INVENTORY
     }
 }

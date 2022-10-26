@@ -59,6 +59,15 @@ namespace Zork
                             Console.WriteLine("The way is shut!");
                         }
                         break;
+                    case Commands.TAKE:
+                        //Player.Inventory.Add(Player.Location.Inventory);
+                        break;
+
+                    case Commands.DROP:
+                        break;
+
+                    case Commands.INVENTORY:
+                        break;
 
                     default:
                         Console.WriteLine("Unknown command.");
