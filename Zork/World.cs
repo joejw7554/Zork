@@ -32,7 +32,7 @@ namespace Zork
             }
         }
 
-        public World(Item[] items)
+        public World(Item[] items)//Look for item from here
         {
             Items = items;
             ItemsByName = new Dictionary<string, Item>(StringComparer.OrdinalIgnoreCase);

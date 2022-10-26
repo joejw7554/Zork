@@ -29,6 +29,7 @@ namespace Zork
         {
             World = world;
             LocationName = startingLocation;
+            Inventory = new List<Item>();
         }
 
         public bool Move(Directions direction)
@@ -39,6 +40,16 @@ namespace Zork
                 Location = destination;
             }
             return isValidMove;
+        }
+
+        public void AddItemToInventory(Item item)
+        {
+
+        }
+
+        public void AddItemFromInventory(Item item)
+        {
+
         }
 
     }

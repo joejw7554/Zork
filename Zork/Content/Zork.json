@@ -9,6 +9,10 @@
       {
         "Name": "Mailbox",
         "Description": "A small mailbox."
+      },
+      {
+        "Name": "Leaves",
+        "Description": "There is a pile of leaves."
       }
     ],
     "Rooms": [
@@ -103,7 +107,7 @@
           "South": "Forest 3"
         },
         "InventoryNames": [
-
+          "Leaves"
         ]
       }
     ]

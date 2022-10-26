@@ -36,7 +36,26 @@ namespace Zork
 
                 Console.Write("\n> ");
 
-                Commands command = ToCommand(Console.ReadLine().Trim());
+                string inputString = Console.ReadLine().Trim();
+                const char separator = ' ';
+                string[] commandTokens = inputString.Split(separator);
+                string verb = null;
+                string subject = null;
+
+                if (commandTokens.Length == 0)
+                {
+                    continue;
+                }
+                else if (commandTokens.Length == 1)
+                {
+                    verb = commandTokens[0];
+                }
+                else
+                {
+                    verb = commandTokens[0];
+                    subject = commandTokens[1];
+                }
+                Commands command = ToCommand(verb);
 
 
                 switch (command)
@@ -47,6 +66,10 @@ namespace Zork
 
                     case Commands.LOOK:
                         Console.WriteLine(Player.Location.Description);
+                        foreach (Item items in Player.Location.Inventory)
+                        {
+
+                        }
                         break;
 
                     case Commands.NORTH:
@@ -59,14 +82,39 @@ namespace Zork
                             Console.WriteLine("The way is shut!");
                         }
                         break;
-                    case Commands.TAKE:
-                        //Player.Inventory.Add(Player.Location.Inventory);
+
+                    case Commands.TAKE when commandTokens.Length >= 2:
+                        if (subject == null)
+                        {
+                            Console.WriteLine("this verb requires a subject");
+                        }
+                        bool itemExists = Player.Location.Inventory.Exists(x => x.Name == subject);
+                        if (itemExists)
+                        {
+                            //Player.Inventory.Insert(Player.Location.Inventory[0]);
+                        }
+                        else
+                        {
+                            Console.WriteLine("There's no such item dummy");
+                        }
                         break;
 
-                    case Commands.DROP:
+                    case Commands.DROP when commandTokens.Length >= 2:
+                        if (subject == null)
+                        {
+                            Console.WriteLine("this verb requires a subject");
+                        }
                         break;
 
                     case Commands.INVENTORY:
+                        if (Player.Inventory.Count == 0)
+                        {
+                            Console.WriteLine("Empty hand.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Taken.");
+                        }
                         break;
 
                     default:
@@ -83,6 +131,11 @@ namespace Zork
             game.Player = game.World.SpawnPlayer();
 
             return game;
+        }
+
+        public string FindVerb(string word)
+        {
+            return word;
         }
         static Commands ToCommand(string commandString) => Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
     }
