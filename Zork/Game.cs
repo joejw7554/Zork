@@ -40,7 +40,7 @@ namespace Zork
                 const char separator = ' ';
                 string[] commandTokens = inputString.Split(separator);
                 string verb = null;
-                string subject = null;
+                string objectWord = null;
 
                 if (commandTokens.Length == 0)
                 {
@@ -53,7 +53,7 @@ namespace Zork
                 else
                 {
                     verb = commandTokens[0];
-                    subject = commandTokens[1];
+                    objectWord = commandTokens[1];
                 }
                 Commands command = ToCommand(verb);
 
@@ -84,23 +84,26 @@ namespace Zork
                         break;
 
                     case Commands.TAKE when commandTokens.Length >= 2:
-                        if (subject == null)
+                        if (objectWord == null)
                         {
-                            Console.WriteLine("this verb requires a subject");
+                            Console.WriteLine("this verb requires an object");
                         }
-                        bool itemExists = Player.Location.Inventory.Exists(x => x.Name == subject);
+                        bool itemExists = Player.Location.Inventory.Exists(x => x.Name == objectWord);
+
                         if (itemExists)
                         {
                             //Player.Inventory.Insert(Player.Location.Inventory[0]);
+                            Console.WriteLine("Exist");
                         }
                         else
                         {
-                            Console.WriteLine("There's no such item dummy");
+                            Console.WriteLine("There's no such item");
                         }
+
                         break;
 
                     case Commands.DROP when commandTokens.Length >= 2:
-                        if (subject == null)
+                        if (objectWord == null)
                         {
                             Console.WriteLine("this verb requires a subject");
                         }
