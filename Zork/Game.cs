@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
-
+using System.Linq;
 
 namespace Zork
 {
@@ -32,6 +32,10 @@ namespace Zork
                 {
                     Console.WriteLine(Player.Location.Description);
                     previousRoom = Player.Location;
+                    foreach(Item itemsInRooms in previousRoom.Inventory)
+                    {
+                        Console.WriteLine(itemsInRooms.Description);
+                    }
                 }
 
                 Console.Write("\n> ");
@@ -66,9 +70,9 @@ namespace Zork
 
                     case Commands.LOOK:
                         Console.WriteLine(Player.Location.Description);
-                        foreach (Item items in Player.Location.Inventory)
+                        foreach (Item itemsInRoom in Player.Location.Inventory)
                         {
-
+                            Console.WriteLine(itemsInRoom.Description);
                         }
                         break;
 
@@ -86,37 +90,52 @@ namespace Zork
                     case Commands.TAKE when commandTokens.Length >= 2:
                         if (objectWord == null)
                         {
-                            Console.WriteLine("this verb requires an object");
+                            Console.WriteLine("What do you want to take?");
                         }
-                        bool itemExists = Player.Location.Inventory.Exists(x => x.Name == objectWord);
 
-                        if (itemExists)
+                        Item item = Player.Location.Inventory.FirstOrDefault(roomItems => roomItems.Name == objectWord);
+
+                        if (item != null)
                         {
-                            //Player.Inventory.Insert(Player.Location.Inventory[0]);
-                            Console.WriteLine("Exist");
+                            Player.AddItemToInventory(item);
                         }
                         else
                         {
-                            Console.WriteLine("There's no such item");
+                            Console.WriteLine("You can't see any such thing.");
                         }
-
+                        //item != null ? Player.AddItemToInventory(item) : Console.WriteLine("You can't see any such thing.")
                         break;
 
                     case Commands.DROP when commandTokens.Length >= 2:
                         if (objectWord == null)
                         {
-                            Console.WriteLine("this verb requires a subject");
+                            Console.WriteLine("What do you want to drop?");
+                        }
+
+                        item = Player.Inventory.FirstOrDefault(playerItems => playerItems.Name == objectWord);
+
+                        if (item != null)
+                        {
+                            Player.RemoveItemFromInventory(item);
+                        }
+                        else
+                        {
+                            Console.WriteLine("You can't see any such thing.");
                         }
                         break;
 
                     case Commands.INVENTORY:
                         if (Player.Inventory.Count == 0)
                         {
-                            Console.WriteLine("Empty hand.");
+                            Console.WriteLine("You are empty-handed.");
                         }
                         else
                         {
-                            Console.WriteLine("Taken.");
+                            Console.WriteLine($"You are carrying:");
+                            foreach (Item inventoryItems in Player.Inventory)
+                            {
+                                Console.WriteLine(inventoryItems);
+                            }
                         }
                         break;
 

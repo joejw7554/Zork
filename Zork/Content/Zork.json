@@ -4,7 +4,7 @@
     "Items": [
       {
         "Name": "Mat",
-        "Desciprtion": "A rubber mat with the words 'Welcome to Zork!' written on it."
+        "Description": "A rubber mat with the words 'Welcome to Zork!' written on it."
       },
       {
         "Name": "Mailbox",
