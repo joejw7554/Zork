@@ -112,7 +112,7 @@ namespace Zork
                             Console.WriteLine("What do you want to drop?");
                         }
 
-                        item = Player.Inventory.FirstOrDefault(playerItems => playerItems.Name == objectWord);
+                        item = Player.Inventory.FirstOrDefault(playerItems => string.Compare(playerItems.Name, objectWord, true)==0);
 
                         if (item != null)
                         {
