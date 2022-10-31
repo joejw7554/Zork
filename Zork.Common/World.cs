@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
-namespace Zork
+namespace Zork.Common
 {
     public class World
     {

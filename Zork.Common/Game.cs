@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace Zork
+namespace Zork.Common
 {
     public class Game
     {
@@ -11,6 +11,8 @@ namespace Zork
 
         [JsonIgnore]
         public Player Player { get; private set; }
+
+        public IOutputService Output { get; private set; }
 
         [JsonIgnore]
         private bool IsRunning { get; set; }
@@ -103,7 +105,7 @@ namespace Zork
                         {
                             Console.WriteLine("You can't see any such thing.");
                         }
-                        //item != null ? Player.AddItemToInventory(item) : Console.WriteLine("You can't see any such thing.")
+                        
                         break;
 
                     case Commands.DROP when commandTokens.Length >= 2:
