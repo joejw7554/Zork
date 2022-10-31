@@ -93,7 +93,7 @@ namespace Zork
                             Console.WriteLine("What do you want to take?");
                         }
 
-                        Item item = Player.Location.Inventory.FirstOrDefault(roomItems => roomItems.Name == objectWord);
+                        Item item = Player.Location.Inventory.FirstOrDefault(roomItems => string.Compare(roomItems.Name, objectWord, true)==0);
 
                         if (item != null)
                         {
