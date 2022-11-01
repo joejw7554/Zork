@@ -14,14 +14,22 @@ namespace Zork.Cli
             var input = new ConsoleInputService();
             var output = new ConsoleOutputService();
 
-            game.Player.MovesChanged += Player_MovesChaged;
+            //game.Player.MovesChanged += Player_MovesChaged;
 
 
             Console.WriteLine("Welcome to Zork!");
-            game.Run(output);
+            game.Run(input, output);
+
+            while(game.IsRunning)
+            {
+               
+                game.Output.Write("> ");
+                input.ProcessInput();
+            }
+
             Console.WriteLine("Thank you for Playing!");
         }
-
+     
         static void Player_MovesChaged(object sender, int moves)
         {
             Console.WriteLine($"You've made {moves} moves");

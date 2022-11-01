@@ -32,8 +32,8 @@ namespace Zork.Common
             }
         }
 
-            [JsonIgnore]
-            public string LocationName
+        [JsonIgnore]
+        public string LocationName
         {
             get
             {
