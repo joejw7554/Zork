@@ -23,24 +23,26 @@ namespace Zork.Common
             Player = player;
         }
 
-        public void Run()
+        public void Run(IOutputService output)
         {
+            Output = output;
+
             IsRunning = true;
             Room previousRoom = null;
             while (IsRunning)
             {
-                Console.WriteLine(Player.Location);
+                Output.WriteLine(Player.Location);
                 if (previousRoom != Player.Location)
                 {
-                    Console.WriteLine(Player.Location.Description);
+                    Output.WriteLine(Player.Location.Description);
                     previousRoom = Player.Location;
                     foreach(Item itemsInRooms in previousRoom.Inventory)
                     {
-                        Console.WriteLine(itemsInRooms.Description);
+                        Output.WriteLine(itemsInRooms.Description);
                     }
                 }
 
-                Console.Write("\n> ");
+                Output.Write("\n> ");
 
                 string inputString = Console.ReadLine().Trim();
                 const char separator = ' ';
@@ -71,10 +73,10 @@ namespace Zork.Common
                         break;
 
                     case Commands.LOOK:
-                        Console.WriteLine(Player.Location.Description);
+                        Output.WriteLine(Player.Location.Description);
                         foreach (Item itemsInRoom in Player.Location.Inventory)
                         {
-                            Console.WriteLine(itemsInRoom.Description);
+                            Output.Write(itemsInRoom.Description);
                         }
                         break;
 
@@ -85,14 +87,14 @@ namespace Zork.Common
                         Directions direction = Enum.Parse<Directions>(command.ToString(), true);
                         if (Player.Move(direction) == false)
                         {
-                            Console.WriteLine("The way is shut!");
+                            Output.WriteLine("The way is shut!");
                         }
                         break;
 
                     case Commands.TAKE when commandTokens.Length >= 2:
                         if (objectWord == null)
                         {
-                            Console.WriteLine("What do you want to take?");
+                            Output.WriteLine("What do you want to take?");
                         }
 
                         Item item = Player.Location.Inventory.FirstOrDefault(roomItems => string.Compare(roomItems.Name, objectWord, true)==0);
@@ -103,7 +105,7 @@ namespace Zork.Common
                         }
                         else
                         {
-                            Console.WriteLine("You can't see any such thing.");
+                            Output.WriteLine("You can't see any such thing.");
                         }
                         
                         break;
@@ -111,7 +113,7 @@ namespace Zork.Common
                     case Commands.DROP when commandTokens.Length >= 2:
                         if (objectWord == null)
                         {
-                            Console.WriteLine("What do you want to drop?");
+                            Output.WriteLine("What do you want to drop?");
                         }
 
                         item = Player.Inventory.FirstOrDefault(playerItems => string.Compare(playerItems.Name, objectWord, true)==0);
@@ -122,27 +124,27 @@ namespace Zork.Common
                         }
                         else
                         {
-                            Console.WriteLine("You can't see any such thing.");
+                            Output.WriteLine("You can't see any such thing.");
                         }
                         break;
 
                     case Commands.INVENTORY:
                         if (Player.Inventory.Count == 0)
                         {
-                            Console.WriteLine("You are empty-handed.");
+                            Output.WriteLine("You are empty-handed.");
                         }
                         else
                         {
-                            Console.WriteLine($"You are carrying:");
+                            Output.WriteLine($"You are carrying:");
                             foreach (Item inventoryItems in Player.Inventory)
                             {
-                                Console.WriteLine(inventoryItems);
+                                Output.WriteLine(inventoryItems);
                             }
                         }
                         break;
 
                     default:
-                        Console.WriteLine("Unknown command.");
+                        Output.WriteLine("Unknown command.");
                         break;
                 }
             }

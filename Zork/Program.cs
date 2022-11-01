@@ -1,6 +1,7 @@
 ﻿using System;
+using Zork.Common;
 
-namespace Zork.Common
+namespace Zork.Cli
 {
     class Program
     {
@@ -10,8 +11,11 @@ namespace Zork.Common
             string gameFilename = (args.Length > 0 ? args[(int)CommandLineArguements.RoomsFilename] : defaultRoomsFilename);
 
             Game game = Game.Load(gameFilename);
+
+            var output = new ConsoleOutputService();
+
             Console.WriteLine("Welcome to Zork!");
-            game.Run();
+            game.Run(output);
             Console.WriteLine("Thank you for Playing!");
         }
         enum CommandLineArguements
