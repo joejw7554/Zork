@@ -7,15 +7,33 @@ namespace Zork.Common
 {
     public class Player
     {
+        public event EventHandler<int> MovesChanged;
+
         public World World { get; }
 
         [JsonIgnore]
         public Room Location { get; private set; }
 
         public List<Item> Inventory { get; }
+        int _moves;
+        public int Moves
+        {
+            get
+            {
+                return _moves;
+            }
+            set
+            {
+                if (_moves != value)
+                {
+                    _moves = value;
+                    MovesChanged?.Invoke(this, _moves);
+                }
+            }
+        }
 
-        [JsonIgnore]
-        public string LocationName
+            [JsonIgnore]
+            public string LocationName
         {
             get
             {
@@ -57,7 +75,7 @@ namespace Zork.Common
 
             if (item != null)
             {
-                Inventory.Add(item); //This is very similar to RemoveItemFrom Inventory but it's same action different order.. is there a better way of taking care of add and remove item?
+                Inventory.Add(item);
                 Location.Inventory.Remove(item);
                 Console.WriteLine("Taken.");
             }

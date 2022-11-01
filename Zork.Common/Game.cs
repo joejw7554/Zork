@@ -12,7 +12,7 @@ namespace Zork.Common
         [JsonIgnore]
         public Player Player { get; private set; }
 
-        public IOutputService Output { get; private set; }
+        public IOutputService Output { get; private set; } // Q:why would I need properties for interface why?
 
         [JsonIgnore]
         private bool IsRunning { get; set; }
@@ -23,9 +23,10 @@ namespace Zork.Common
             Player = player;
         }
 
-        public void Run(IOutputService output)
+        public void Run(IOutputService output) //Q: Associated with Q1 why do I need Output in Run method instead of in the constructor 
         {
-            Output = output;
+           
+            Output = output?? throw new ArgumentException(nameof(output));
 
             IsRunning = true;
             Room previousRoom = null;
@@ -146,6 +147,11 @@ namespace Zork.Common
                     default:
                         Output.WriteLine("Unknown command.");
                         break;
+                }
+                
+                if(command!=Commands.UNKNOWN)
+                {
+                    Player.Moves++;
                 }
             }
 

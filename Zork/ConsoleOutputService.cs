@@ -21,6 +21,5 @@ namespace Zork.Cli
         {
             Console.WriteLine(messsage);
         }
-
     }
 }
