@@ -40,6 +40,7 @@ namespace Zork.Common
 
             Input.InputReceived += Input_InputReceived;
             IsRunning = true;
+
             Output.WriteLine(Player.Location);
             Output.WriteLine(Player.Location.Description);
             foreach (Item itemsInRoom in Player.Location.Inventory)
@@ -47,7 +48,6 @@ namespace Zork.Common
                 Output.WriteLine(itemsInRoom.Description);
             }
 
-            //1:33:58
         }
 
         void Input_InputReceived(object sender, string inputString)
@@ -57,7 +57,7 @@ namespace Zork.Common
             const char separator = ' ';
             string[] commandTokens = inputString.Split(separator);
             string verb = null;
-            string objectWord = null;
+            string itemName = null;
 
             if (commandTokens.Length == 1)
             {
@@ -66,10 +66,11 @@ namespace Zork.Common
             else
             {
                 verb = commandTokens[0];
-                objectWord = commandTokens[1];
+                itemName = commandTokens[1];
             }
 
-            Commands command = ToCommand(inputString);
+            Commands command = ToCommand(verb);
+
             string outputString;
 
             switch (command)
@@ -80,10 +81,7 @@ namespace Zork.Common
 
                 case Commands.LOOK:
                     Output.WriteLine(Player.Location.Description);
-                    foreach (Item itemsInRoom in Player.Location.Inventory)
-                    {
-                        Output.WriteLine(itemsInRoom.Description);
-                    }
+                    InventoryCommands.DisplayCurrentLocationInventory(this);
                     break;
 
                 case Commands.NORTH:
@@ -97,56 +95,25 @@ namespace Zork.Common
                     }
                     break;
 
-                case Commands.TAKE when commandTokens.Length >= 2:
-                    if (objectWord == null)
-                    {
-                        Output.WriteLine("What do you want to take?");
-                    }
+                case Commands.TAKE:
+                    InventoryCommands.Take(this, itemName);
+                    break;
 
-                    Item item = Player.Location.Inventory.FirstOrDefault(roomItems => string.Compare(roomItems.Name, objectWord, true) == 0);
-
-                    if (item != null)
+                case Commands.DROP:
+                    if (itemName == null)
                     {
-                        Player.AddItemToInventory(item);
+                        outputString = "What do you want to drop?";
                     }
                     else
                     {
-                        Output.WriteLine("You can't see any such thing.");
+                        outputString = Player.RemoveItemFromInventory(itemName) ? "Dropped" : "You can't see any such thing in your inventory.";
                     }
-
+                    Output.WriteLine(outputString);
                     break;
-
-                case Commands.DROP when commandTokens.Length >= 2:
-                    if (objectWord == null)
-                    {
-                        Output.WriteLine("What do you want to drop?");
-                    }
-
-                    item = Player.Inventory.FirstOrDefault(playerItems => string.Compare(playerItems.Name, objectWord, true) == 0);
-
-                    if (item != null)
-                    {
-                        Player.RemoveItemFromInventory(item);
-                    }
-                    else
-                    {
-                        Output.WriteLine("You can't see any such thing.");
-                    }
-                    break;
+                   
 
                 case Commands.INVENTORY:
-                    if (Player.Inventory.Count == 0)
-                    {
-                        Output.WriteLine("You are empty-handed.");
-                    }
-                    else
-                    {
-                        Output.WriteLine($"You are carrying:");
-                        foreach (Item inventoryItems in Player.Inventory)
-                        {
-                            Output.WriteLine(inventoryItems);
-                        }
-                    }
+                    InventoryCommands.DisplayPlayerInventory(this);
                     break;
 
                 default:
@@ -156,12 +123,6 @@ namespace Zork.Common
 
             if (previousRoom != Player.Location)
             {
-                //Output.WriteLine(Player.Location.Description);
-                //previousRoom = Player.Location;
-                //foreach (Item itemsInRooms in previousRoom.Inventory)
-                //{
-                //    Output.WriteLine(itemsInRooms.Description);
-                //}
                 Output.WriteLine(Player.Location);
                 Output.WriteLine(Player.Location.Description);
                 foreach (Item itemsInRoom in Player.Location.Inventory)
@@ -174,11 +135,6 @@ namespace Zork.Common
             {
                 Player.Moves++;
             }
-
-            //if (IsRunning)
-            //{
-            //    Output.WriteLine(Player.Location);
-            //}
         }
 
         static Commands ToCommand(string commandString) => Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;

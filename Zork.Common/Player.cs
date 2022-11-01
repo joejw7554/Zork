@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Zork.Common
 {
@@ -62,27 +64,44 @@ namespace Zork.Common
             return isValidMove;
         }
 
-        public void AddItemToInventory(Item item)
+        public void AddItemToInventory(Item itemToAdd)
         {
-            foreach (KeyValuePair<string, Item> itemsInWorld in World.ItemsByName)
+            if (itemToAdd == null)
             {
-                if (itemsInWorld.Key == item.Name)
-                {
-                    item = itemsInWorld.Value;
-                    break;
-                }
+                throw new ArgumentNullException(nameof(itemToAdd));
             }
 
-            if (item != null)
-            {
-                Inventory.Add(item);
-                Location.Inventory.Remove(item);
-                Console.WriteLine("Taken.");
-            }
+            Inventory.Add(itemToAdd);
+            Location.Inventory.Remove(itemToAdd);
         }
 
-        public void RemoveItemFromInventory(Item item)
+        //public void RemoveItemFromInventory(Item item)
+        //{
+        //    foreach (KeyValuePair<string, Item> itemsInWorld in World.ItemsByName)
+        //    {
+        //        if (itemsInWorld.Key == item.Name)
+        //        {
+        //            item = itemsInWorld.Value;
+        //            break;
+        //        }
+        //    }
+
+        //    if (item != null)
+        //    {
+        //        Inventory.Remove(item);
+        //        Location.Inventory.Add(item);
+        //    }
+        //}
+
+        public bool RemoveItemFromInventory(string objectWord)
         {
+            Item item = Inventory.FirstOrDefault(playerItems => string.Compare(playerItems.Name, objectWord, true) == 0);
+
+            if (item == null) //to avoid null reference
+            {
+                return false;
+            }
+
             foreach (KeyValuePair<string, Item> itemsInWorld in World.ItemsByName)
             {
                 if (itemsInWorld.Key == item.Name)
@@ -96,10 +115,11 @@ namespace Zork.Common
             {
                 Inventory.Remove(item);
                 Location.Inventory.Add(item);
-                Console.WriteLine("Dropped.");
+                return true;
             }
-        }
 
+            return false;
+        }
     }
 
 }
