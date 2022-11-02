@@ -1,0 +1,14 @@
+C:\Users\ja005391\source\repos\Zork\Zork\bin\Debug\netcoreapp2.1\Zork.deps.json
+C:\Users\ja005391\source\repos\Zork\Zork\bin\Debug\netcoreapp2.1\Zork.runtimeconfig.json
+C:\Users\ja005391\source\repos\Zork\Zork\bin\Debug\netcoreapp2.1\Zork.runtimeconfig.dev.json
+C:\Users\ja005391\source\repos\Zork\Zork\bin\Debug\netcoreapp2.1\Zork.dll
+C:\Users\ja005391\source\repos\Zork\Zork\bin\Debug\netcoreapp2.1\Zork.pdb
+C:\Users\ja005391\source\repos\Zork\Zork\obj\Debug\netcoreapp2.1\Zork.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ja005391\source\repos\Zork\Zork\obj\Debug\netcoreapp2.1\Zork.AssemblyInfoInputs.cache
+C:\Users\ja005391\source\repos\Zork\Zork\obj\Debug\netcoreapp2.1\Zork.AssemblyInfo.cs
+C:\Users\ja005391\source\repos\Zork\Zork\obj\Debug\netcoreapp2.1\Zork.csproj.CoreCompileInputs.cache
+C:\Users\ja005391\source\repos\Zork\Zork\obj\Debug\netcoreapp2.1\Zork.dll
+C:\Users\ja005391\source\repos\Zork\Zork\obj\Debug\netcoreapp2.1\Zork.pdb
+C:\Users\ja005391\source\repos\Zork\Zork\obj\Debug\netcoreapp2.1\Zork.genruntimeconfig.cache
+C:\Users\ja005391\source\repos\Zork\Zork\obj\Debug\netcoreapp2.1\Zork.csproj.AssemblyReference.cache
+C:\Users\ja005391\source\repos\Zork\Zork\bin\Debug\netcoreapp2.1\Content\Zork.json
