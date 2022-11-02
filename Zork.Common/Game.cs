@@ -100,15 +100,7 @@ namespace Zork.Common
                     break;
 
                 case Commands.DROP:
-                    if (itemName == null)
-                    {
-                        outputString = "What do you want to drop?";
-                    }
-                    else
-                    {
-                        outputString = Player.RemoveItemFromInventory(itemName) ? "Dropped" : "You can't see any such thing in your inventory.";
-                    }
-                    Output.WriteLine(outputString);
+                    InventoryCommands.Drop(this, itemName);
                     break;
                    
 

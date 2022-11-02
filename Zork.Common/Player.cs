@@ -75,51 +75,18 @@ namespace Zork.Common
             Location.Inventory.Remove(itemToAdd);
         }
 
-        //public void RemoveItemFromInventory(Item item)
-        //{
-        //    foreach (KeyValuePair<string, Item> itemsInWorld in World.ItemsByName)
-        //    {
-        //        if (itemsInWorld.Key == item.Name)
-        //        {
-        //            item = itemsInWorld.Value;
-        //            break;
-        //        }
-        //    }
-
-        //    if (item != null)
-        //    {
-        //        Inventory.Remove(item);
-        //        Location.Inventory.Add(item);
-        //    }
-        //}
-
-        public bool RemoveItemFromInventory(string objectWord)
+        public void RemoveItemFromInventory(Item itemToRemove)
         {
-            Item item = Inventory.FirstOrDefault(playerItems => string.Compare(playerItems.Name, objectWord, true) == 0);
-
-            if (item == null) //to avoid null reference
+            if (itemToRemove == null)
             {
-                return false;
+                throw new ArgumentNullException(nameof(itemToRemove));
             }
 
-            foreach (KeyValuePair<string, Item> itemsInWorld in World.ItemsByName)
-            {
-                if (itemsInWorld.Key == item.Name)
-                {
-                    item = itemsInWorld.Value;
-                    break;
-                }
-            }
-
-            if (item != null)
-            {
-                Inventory.Remove(item);
-                Location.Inventory.Add(item);
-                return true;
-            }
-
-            return false;
+            Inventory.Remove(itemToRemove);
+            Location.Inventory.Add(itemToRemove);
         }
-    }
 
+    }
 }
+
+

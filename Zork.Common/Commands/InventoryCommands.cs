@@ -70,5 +70,51 @@ namespace Zork.Common
                 game.Output.WriteLine(outputString);
             }
         }
+
+        public static void Drop(Game game, string itemName)
+        {
+            string outputString = null;
+
+            if(string.IsNullOrWhiteSpace(itemName))
+            {
+                outputString = "What do you want to drop?";
+            }
+            else
+            {
+                bool DoesitemExistInRoom=false;
+
+                foreach(Item itemInRoomInventory in game.Player.Location.Inventory)
+                {
+                    if(string.Compare(itemInRoomInventory.Name, itemName, true)==0)
+                    {
+                        DoesitemExistInRoom = true;
+                        outputString = $"The {itemName} is already here.";
+                        break;
+                    }
+                }
+
+                if(!DoesitemExistInRoom)
+                {
+                    Item item = game.Player.Inventory.FirstOrDefault(invetoryItems => string.Compare(invetoryItems.Name, itemName, true) == 0);
+
+                    if (item == null)
+                    {
+                        outputString = "There is no such thing in your inventory.";
+                    }
+                    else
+                    {
+                        game.Player.RemoveItemFromInventory(item);
+                        outputString = "Dropped";
+                    }
+                }
+            }
+
+            if(outputString!=null)
+            {
+                game.Output.WriteLine(outputString);
+            }
+        }
+
     }
+
 }
