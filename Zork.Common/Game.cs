@@ -38,7 +38,7 @@ namespace Zork.Common
             Input = input ?? throw new ArgumentException(nameof(input));
             Output = output ?? throw new ArgumentException(nameof(output));
 
-            Input.InputReceived += Input_InputReceived;
+            Input.InputReceived += OnInputReceived;
             IsRunning = true;
 
             Output.WriteLine(Player.Location);
@@ -50,7 +50,7 @@ namespace Zork.Common
 
         }
 
-        void Input_InputReceived(object sender, string inputString)
+        void OnInputReceived(object sender, string inputString)
         {
             Room previousRoom = Player.Location;
 
@@ -71,7 +71,7 @@ namespace Zork.Common
 
             Commands command = ToCommand(verb);
 
-            string outputString;
+            string outputString=null;
 
             switch (command)
             {
