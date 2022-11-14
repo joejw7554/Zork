@@ -8,13 +8,3 @@ C:\Users\ja005391\source\repos\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Co
 C:\Users\ja005391\source\repos\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.csproj.CoreCompileInputs.cache
 C:\Users\ja005391\source\repos\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.dll
 C:\Users\ja005391\source\repos\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.pdb
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\bin\Debug\netstandard2.1\Zork.Common.deps.json
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\bin\Debug\netstandard2.1\Zork.Common.dll
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\bin\Debug\netstandard2.1\Zork.Common.pdb
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.csproj.AssemblyReference.cache
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.AssemblyInfoInputs.cache
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.AssemblyInfo.cs
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.csproj.CoreCompileInputs.cache
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.dll
-C:\Users\joejw\Desktop\DIG4778 Tools & Plugins\Zork\Zork.Common\obj\Debug\netstandard2.1\Zork.Common.pdb

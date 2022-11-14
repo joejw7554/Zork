@@ -1,89 +1,61 @@
 ﻿using System;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Zork.Common
 {
     public class Player
     {
-        public event EventHandler<int> MovesChanged;
-
-        public World World { get; }
-
-        [JsonIgnore]
-        public Room Location { get; private set; }
-
-        public List<Item> Inventory { get; }
-        int _moves;
-        public int Moves
+        public Room CurrentRoom
         {
-            get
-            {
-                return _moves;
-            }
-            set
-            {
-                if (_moves != value)
-                {
-                    _moves = value;
-                    MovesChanged?.Invoke(this, _moves);
-                }
-            }
+            get => _currentRoom;
+            set => _currentRoom = value;
         }
 
-        [JsonIgnore]
-        public string LocationName
-        {
-            get
-            {
-                return Location?.Name;
-            }
-            set
-            {
-                Location = World?.RoomsByName.GetValueOrDefault(value);
-            }
-        }
+        public IEnumerable<Item> Inventory => _inventory;
 
         public Player(World world, string startingLocation)
         {
-            World = world;
-            LocationName = startingLocation;
-            Inventory = new List<Item>();
+            _world = world;
+
+            if (_world.RoomsByName.TryGetValue(startingLocation, out _currentRoom) == false)
+            {
+                throw new Exception($"Invalid starting location: {startingLocation}");
+            }
+
+            _inventory = new List<Item>();
         }
 
         public bool Move(Directions direction)
         {
-            bool isValidMove = Location.Neighbors.TryGetValue(direction, out Room destination);
-            if (isValidMove)
+            bool didMove = _currentRoom.Neighbors.TryGetValue(direction, out Room neighbor);
+            if (didMove)
             {
-                Location = destination;
+                CurrentRoom = neighbor;
             }
-            return isValidMove;
+
+            return didMove;
         }
 
         public void AddItemToInventory(Item itemToAdd)
         {
-            if (itemToAdd == null)
+            if (_inventory.Contains(itemToAdd))
             {
-                throw new ArgumentNullException(nameof(itemToAdd));
+                throw new Exception($"Item {itemToAdd} already exists in inventory.");
             }
 
-            Inventory.Add(itemToAdd);
-            Location.Inventory.Remove(itemToAdd);
+            _inventory.Add(itemToAdd);
         }
 
         public void RemoveItemFromInventory(Item itemToRemove)
         {
-            if (itemToRemove == null)
+            if (_inventory.Remove(itemToRemove) == false)
             {
-                throw new ArgumentNullException(nameof(itemToRemove));
+                throw new Exception("Could not remove item from inventory.");
             }
-
-            Inventory.Remove(itemToRemove);
-            Location.Inventory.Add(itemToRemove);
         }
 
+        private readonly World _world;
+        private Room _currentRoom;
+        private readonly List<Item> _inventory;
     }
 }
-
-

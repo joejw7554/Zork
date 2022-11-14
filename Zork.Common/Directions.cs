@@ -1,11 +1,10 @@
-﻿
-namespace Zork.Common
+﻿namespace Zork.Common
 {
     public enum Directions
     {
-        North,
-        South,
-        East,
-        West
+        North = Commands.North,
+        South = Commands.South,
+        East = Commands.East,
+        West = Commands.West
     }
 }

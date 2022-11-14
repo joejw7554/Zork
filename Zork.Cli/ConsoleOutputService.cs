@@ -9,17 +9,20 @@ namespace Zork.Cli
         {
             Console.Write(obj);
         }
+
         public void Write(string message)
         {
             Console.Write(message);
         }
+
         public void WriteLine(object obj)
         {
             Console.WriteLine(obj);
         }
-        public void WriteLine(string messsage)
+
+        public void WriteLine(string message)
         {
-            Console.WriteLine(messsage);
+            Console.WriteLine(message);
         }
     }
 }

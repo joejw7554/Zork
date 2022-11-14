@@ -2,9 +2,12 @@
 {
     public interface IOutputService
     {
-        void Write(string message);
         void Write(object obj);
+        
+        void Write(string message);
+        
         void WriteLine(object obj);
-        void WriteLine(string messsage);
+
+        void WriteLine(string message);
     }
 }

@@ -1,16 +1,20 @@
-﻿
-namespace Zork.Common
+﻿namespace Zork.Common
 {
     public class Item
     {
         public string Name { get; }
-        public string Description { get; }
 
-        public Item(string name, string description)
+        public string LookDescription { get; }
+
+        public string InventoryDescription { get; }
+
+        public Item(string name, string lookDescription, string inventoryDescription)
         {
             Name = name;
-            Description = description;
+            LookDescription = lookDescription;
+            InventoryDescription = inventoryDescription;
         }
-        public override string ToString() => Description;
+
+        public override string ToString() => Name;
     }
 }

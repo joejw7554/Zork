@@ -1,115 +1,120 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.IO;
+﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Zork.Common
 {
     public class Game
     {
-        public World World { get; private set; }
+        public World World { get; }
 
         [JsonIgnore]
-        public Player Player { get; private set; }
+        public Player Player { get; }
 
+        [JsonIgnore]
         public IInputService Input { get; private set; }
-        public IOutputService Output { get; private set; } // Q:why would I need properties for interface why?
+
+        [JsonIgnore]
+        public IOutputService Output { get; private set; }
 
         [JsonIgnore]
         public bool IsRunning { get; private set; }
 
-        public Game(World world, Player player)
+        public Game(World world, string startingLocation)
         {
             World = world;
-            Player = player;
-        }
-
-
-        public static Game Load(string filename)
-        {
-            Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(filename));
-            game.Player = game.World.SpawnPlayer();
-
-            return game;
+            Player = new Player(World, startingLocation);
         }
 
         public void Run(IInputService input, IOutputService output)
         {
-            Input = input ?? throw new ArgumentException(nameof(input));
-            Output = output ?? throw new ArgumentException(nameof(output));
+            Input = input ?? throw new ArgumentNullException(nameof(input));
+            Output = output ?? throw new ArgumentNullException(nameof(output));
 
-            Input.InputReceived += OnInputReceived;
             IsRunning = true;
-
-            Output.WriteLine(Player.Location);
-            Output.WriteLine(Player.Location.Description);
-            foreach (Item itemsInRoom in Player.Location.Inventory)
-            {
-                Output.WriteLine(itemsInRoom.Description);
-            }
-
+            Input.InputReceived += OnInputReceived;
+            Output.WriteLine("Welcome to Zork!");
+            Look();
+            Output.WriteLine($"\n{Player.CurrentRoom}");
         }
 
-        void OnInputReceived(object sender, string inputString)
+        public void OnInputReceived(object sender, string inputString)
         {
-            Room previousRoom = Player.Location;
-
-            const char separator = ' ';
+            char separator = ' ';
             string[] commandTokens = inputString.Split(separator);
-            string verb = null;
-            string itemName = null;
 
-            if (commandTokens.Length == 1)
+            string verb;
+            string subject = null;
+            if (commandTokens.Length == 0)
+            {
+                return;
+            }
+            else if (commandTokens.Length == 1)
             {
                 verb = commandTokens[0];
             }
             else
             {
                 verb = commandTokens[0];
-                itemName = commandTokens[1];
+                subject = commandTokens[1];
             }
 
+            Room previousRoom = Player.CurrentRoom;
             Commands command = ToCommand(verb);
-
-            string outputString=null;
-
             switch (command)
             {
-                case Commands.QUIT:
+                case Commands.Quit:
                     IsRunning = false;
+                    Output.WriteLine("Thank you for playing!");
                     break;
 
-                case Commands.LOOK:
-                    Output.WriteLine(Player.Location.Description);
-                    InventoryCommands.DisplayCurrentLocationInventory(this);
+                case Commands.Look:
+                    Look();
                     break;
 
-                case Commands.NORTH:
-                case Commands.SOUTH:
-                case Commands.EAST:
-                case Commands.WEST:
+                case Commands.North:
+                case Commands.South:
+                case Commands.East:
+                case Commands.West:
                     Directions direction = (Directions)command;
-                    if (Player.Move(direction) == false)
+                    Output.WriteLine(Player.Move(direction) ? $"You moved {direction}." : "The way is shut!");
+                    break;
+
+                case Commands.Take:
+                    if (string.IsNullOrEmpty(subject))
                     {
-                        Output.WriteLine("The way is shut!");
+                        Output.WriteLine("This command requires a subject.");
                     }
                     else
                     {
-                        Output.WriteLine($"You moved to {command}");
+                        Take(subject);
                     }
                     break;
 
-                case Commands.TAKE:
-                    InventoryCommands.Take(this, itemName);
+                case Commands.Drop:
+                    if (string.IsNullOrEmpty(subject))
+                    {
+                        Output.WriteLine("This command requires a subject.");
+                    }
+                    else
+                    {
+                        Drop(subject);
+                    }
                     break;
 
-                case Commands.DROP:
-                    InventoryCommands.Drop(this, itemName);
-                    break;
-                   
-
-                case Commands.INVENTORY:
-                    InventoryCommands.DisplayPlayerInventory(this);
+                case Commands.Inventory:
+                    if (Player.Inventory.Count() == 0)
+                    {
+                        Console.WriteLine("You are empty handed.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("You are carrying:");
+                        foreach (Item item in Player.Inventory)
+                        {
+                            Output.WriteLine(item.InventoryDescription);
+                        }
+                    }
                     break;
 
                 default:
@@ -117,23 +122,53 @@ namespace Zork.Common
                     break;
             }
 
-            if (previousRoom != Player.Location)
+            if (ReferenceEquals(previousRoom, Player.CurrentRoom) == false)
             {
-                Output.WriteLine(Player.Location);
-                Output.WriteLine(Player.Location.Description);
-                foreach (Item itemsInRoom in Player.Location.Inventory)
-                {
-                    Output.WriteLine(itemsInRoom.Description);
-                }
+                Look();
             }
 
-            if (command != Commands.UNKNOWN)
+            Output.WriteLine($"\n{Player.CurrentRoom}");
+        }
+        
+        private void Look()
+        {
+            Output.WriteLine(Player.CurrentRoom.Description);
+            foreach (Item item in Player.CurrentRoom.Inventory)
             {
-                Player.Moves++;
+                Output.WriteLine(item.LookDescription);
             }
         }
 
-        static Commands ToCommand(string commandString) => Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
-    }
+        private void Take(string itemName)
+        {
+            Item itemToTake = Player.CurrentRoom.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
+            if (itemToTake == null)
+            {
+                Console.WriteLine("You can't see any such thing.");                
+            }
+            else
+            {
+                Player.AddItemToInventory(itemToTake);
+                Player.CurrentRoom.RemoveItemFromInventory(itemToTake);
+                Console.WriteLine("Taken.");
+            }
+        }
 
+        private void Drop(string itemName)
+        {
+            Item itemToDrop = Player.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
+            if (itemToDrop == null)
+            {
+                Console.WriteLine("You can't see any such thing.");                
+            }
+            else
+            {
+                Player.CurrentRoom.AddItemToInventory(itemToDrop);
+                Player.RemoveItemFromInventory(itemToDrop);
+                Console.WriteLine("Dropped.");
+            }
+        }
+
+        private static Commands ToCommand(string commandString) => Enum.TryParse(commandString, true, out Commands result) ? result : Commands.Unknown;
+    }
 }
