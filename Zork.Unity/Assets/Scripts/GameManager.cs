@@ -12,12 +12,16 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] UnityInputService Input;
     [SerializeField] UnityOutputService Output;
-    private void Awake()
+    void Awake()
     {
         TextAsset gameJson = Resources.Load<TextAsset>("GameJson");
         _game = JsonConvert.DeserializeObject<Game>(gameJson.text);
         _game.Run(Input, Output);
 
     }
-    private Game _game;
+    void Update()
+    {
+        
+    }
+    Game _game;
 }
