@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 namespace Zork.Common
@@ -36,6 +37,7 @@ namespace Zork.Common
             Output.WriteLine("Welcome to Zork!");
             Look();
             Output.WriteLine($"\n{Player.CurrentRoom}");
+
         }
 
         public void OnInputReceived(object sender, string inputString)
@@ -117,9 +119,20 @@ namespace Zork.Common
                     }
                     break;
 
+                case Commands.Reward:
+                    Player.Score += 5;
+                    
+                    Output.WriteLine($"You cheated. Your score is {Player.Score}");
+                    break;
+
                 default:
                     Output.WriteLine("Unknown command.");
                     break;
+            }
+
+            if(command!=Commands.Unknown || command!= Commands.Reward)
+            {
+                Player.Moves++;
             }
 
             if (ReferenceEquals(previousRoom, Player.CurrentRoom) == false)

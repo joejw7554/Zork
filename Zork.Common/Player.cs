@@ -5,6 +5,30 @@ namespace Zork.Common
 {
     public class Player
     {
+        public int Moves
+        {
+            get { return _moves; }
+            set
+            {
+                if (_moves != value)
+                {
+                    _moves = value;
+                }
+            }
+        }
+
+        public int Score
+        {
+            get { return _scores; }
+            set
+            {
+                if (_scores != value)
+                {
+                    _scores = value;
+                }
+            }
+        }
+
         public Room CurrentRoom
         {
             get => _currentRoom;
@@ -57,5 +81,13 @@ namespace Zork.Common
         private readonly World _world;
         private Room _currentRoom;
         private readonly List<Item> _inventory;
+        private int _moves = 1;
+        private int _scores = 0;
+
+
+        public override string ToString()
+        {
+            return Score.ToString();
+        }
     }
 }
