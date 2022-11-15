@@ -732,8 +732,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 525, y: -7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 508.4, y: -7}
+  m_SizeDelta: {x: 244.7955, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &686483402
 MonoBehaviour:
@@ -1228,6 +1228,10 @@ PrefabInstance:
       propertyPath: m_text
       value: West of House
       objectReference: {fileID: 0}
+    - target: {fileID: 2510156144016067198, guid: 6e0aad31f1f4d8447b9a8f697f0b9a4d, type: 3}
+      propertyPath: m_margin.z
+      value: -1204.2808
+      objectReference: {fileID: 0}
     - target: {fileID: 5980315568301426569, guid: 6e0aad31f1f4d8447b9a8f697f0b9a4d, type: 3}
       propertyPath: m_Name
       value: TextLine
@@ -1645,8 +1649,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -836, y: -7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -717.1945, y: -7}
+  m_SizeDelta: {x: 437.6108, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1378538602
 MonoBehaviour:
@@ -2226,8 +2230,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 827.2, y: -7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 798.98364, y: -7}
+  m_SizeDelta: {x: 268.1671, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1834514449
 MonoBehaviour:
