@@ -1,4 +1,5 @@
 using System;
+using System.Data.SqlTypes;
 using TMPro;
 using UnityEngine;
 using Zork.Common;
@@ -16,8 +17,7 @@ public class UnityInputService : MonoBehaviour, IInputService
             {
                 InputReceived?.Invoke(this, inputString);
             }
-
-            InputField.text = string.Empty;
         }
+        InputField.text = string.Empty;
     }
 }
