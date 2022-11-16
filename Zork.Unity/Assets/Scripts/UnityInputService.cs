@@ -1,23 +1,26 @@
 using System;
-using System.Data.SqlTypes;
 using TMPro;
 using UnityEngine;
 using Zork.Common;
 public class UnityInputService : MonoBehaviour, IInputService
 {
-    public event EventHandler<string> InputReceived;
     [SerializeField] TMP_InputField InputField;
 
-    void Update()
+    public event EventHandler<string> InputReceived;
+
+    public void ProcessInput()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+
+        if (string.IsNullOrEmpty(InputField.text) == false)
         {
-            string inputString = InputField.text;
-            if (string.IsNullOrEmpty(inputString) == false)
-            {
-                InputReceived?.Invoke(this, inputString);
-            }
+            InputReceived?.Invoke(this, InputField.text.Trim());
         }
         InputField.text = string.Empty;
+        SetFocus();
+    }
+    public void SetFocus()
+    {
+        InputField.Select();
+        InputField.ActivateInputField();
     }
 }
