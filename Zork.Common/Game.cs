@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 namespace Zork.Common
@@ -36,7 +35,6 @@ namespace Zork.Common
             Input.InputReceived += OnInputReceived;
             Output.WriteLine("Welcome to Zork!");
             Look();
-            Output.WriteLine($"{Player.CurrentRoom}");
 
         }
 
@@ -120,8 +118,10 @@ namespace Zork.Common
                     break;
 
                 case Commands.Reward:
-                    Player.Score += 5;
-                    Output.WriteLine($"Your score is {Player.Score}");
+                    Player.Score += 1;
+                    break;
+                case Commands.Score:
+                    Output.WriteLine($"Your socre is {Player.Score} , your move is {Player.Moves}");
                     break;
 
                 default:
@@ -130,12 +130,11 @@ namespace Zork.Common
             }
 
 
-            if (command != Commands.Unknown &&command!= Commands.Reward)
+            if (command != Commands.Unknown && command != Commands.Reward && command != Commands.Score)
             {
                 Player.Moves++;
             }
 
-            Output.WriteLine($"{Player.CurrentRoom}");
 
             if (ReferenceEquals(previousRoom, Player.CurrentRoom) == false)
             {
@@ -146,6 +145,7 @@ namespace Zork.Common
 
         private void Look()
         {
+            Output.WriteLine($"{Player.CurrentRoom}");
             Output.WriteLine(Player.CurrentRoom.Description);
             foreach (Item item in Player.CurrentRoom.Inventory)
             {

@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
         MovesText.text = "Moves: " + _game.Player.Moves.ToString();
         ScoreText.text = "Score: " + _game.Player.Score.ToString();
+        LocationText.text= _game.Player.CurrentRoom.Name;
     }
 
     private void Start()
@@ -57,7 +58,6 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        LocationText.text = _game.Player.CurrentRoom.Name;
         if (Input.GetKeyDown(KeyCode.Return))
         {
             InputService.ProcessInput();

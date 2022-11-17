@@ -21,6 +21,7 @@
         Inventory,
         I = Inventory,
         Reward,
+        Score,
         Unknown
     }
 }
