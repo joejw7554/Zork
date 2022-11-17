@@ -21,5 +21,5 @@ public class UnityOutputService : MonoBehaviour, IOutputService
         _entries.Add(textLine.gameObject);
     }
 
-    List<GameObject> _entries = new List<GameObject>();
+    static List<GameObject> _entries = new List<GameObject>();
 }

@@ -6,6 +6,8 @@ namespace Zork.Common
     public class Player
     {
         public event EventHandler<Room> LocationChanged;
+        public event EventHandler<int> PlayerMoved;
+        public event EventHandler<int> ScoreChanged;
 
         public int Moves
         {
@@ -15,6 +17,7 @@ namespace Zork.Common
                 if (_moves != value)
                 {
                     _moves = value;
+                    PlayerMoved?.Invoke(this, _moves);
                 }
             }
         }
@@ -27,6 +30,7 @@ namespace Zork.Common
                 if (_scores != value)
                 {
                     _scores = value;
+                    ScoreChanged?.Invoke(this, _scores);
                 }
             }
         }
@@ -54,7 +58,6 @@ namespace Zork.Common
             {
                 throw new Exception($"Invalid starting location: {startingLocation}");
             }
-
             _inventory = new List<Item>();
         }
 

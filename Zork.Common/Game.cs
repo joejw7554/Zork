@@ -36,7 +36,7 @@ namespace Zork.Common
             Input.InputReceived += OnInputReceived;
             Output.WriteLine("Welcome to Zork!");
             Look();
-            Output.WriteLine($"\n{Player.CurrentRoom}");
+            Output.WriteLine($"{Player.CurrentRoom}");
 
         }
 
@@ -121,8 +121,7 @@ namespace Zork.Common
 
                 case Commands.Reward:
                     Player.Score += 5;
-                    
-                    Output.WriteLine($"You cheated. Your score is {Player.Score}");
+                    Output.WriteLine($"Your score is {Player.Score}");
                     break;
 
                 default:
@@ -130,19 +129,21 @@ namespace Zork.Common
                     break;
             }
 
-            if(command!=Commands.Unknown || command!= Commands.Reward)
+
+            if (command != Commands.Unknown &&command!= Commands.Reward)
             {
                 Player.Moves++;
             }
+
+            Output.WriteLine($"{Player.CurrentRoom}");
 
             if (ReferenceEquals(previousRoom, Player.CurrentRoom) == false)
             {
                 Look();
             }
 
-            Output.WriteLine($"\n{Player.CurrentRoom}");
         }
-        
+
         private void Look()
         {
             Output.WriteLine(Player.CurrentRoom.Description);
@@ -157,7 +158,7 @@ namespace Zork.Common
             Item itemToTake = Player.CurrentRoom.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
             if (itemToTake == null)
             {
-                Output.WriteLine("You can't see any such thing.");                
+                Output.WriteLine("You can't see any such thing.");
             }
             else
             {
@@ -172,7 +173,7 @@ namespace Zork.Common
             Item itemToDrop = Player.Inventory.FirstOrDefault(item => string.Compare(item.Name, itemName, ignoreCase: true) == 0);
             if (itemToDrop == null)
             {
-                Output.WriteLine("You can't see any such thing.");                
+                Output.WriteLine("You can't see any such thing.");
             }
             else
             {
