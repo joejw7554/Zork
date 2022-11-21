@@ -1830,6 +1830,7 @@ MonoBehaviour:
   TextLinePrefab: {fileID: 1257472474616536010, guid: 6e0aad31f1f4d8447b9a8f697f0b9a4d, type: 3}
   NewLinePrefab: {fileID: 5868653334551324177, guid: 7c13bb9dc0174bb46b8677ee5e3ba7b1, type: 3}
   Content: {fileID: 1017064714}
+  maxLines: 10
 --- !u!114 &1812619482
 MonoBehaviour:
   m_ObjectHideFlags: 0
