@@ -151,6 +151,7 @@ namespace Zork.Common
             {
                 Output.WriteLine(item.LookDescription);
             }
+
         }
 
         private void Take(string itemName)
@@ -181,6 +182,11 @@ namespace Zork.Common
                 Player.RemoveItemFromInventory(itemToDrop);
                 Output.WriteLine("Dropped.");
             }
+        }
+
+        void Attack()
+        {
+
         }
 
         private static Commands ToCommand(string commandString) => Enum.TryParse(commandString, true, out Commands result) ? result : Commands.Unknown;

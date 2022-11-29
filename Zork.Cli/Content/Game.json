@@ -5,19 +5,43 @@
       {
         "Name": "Mat",
         "LookDescription": "A rubber mat saying 'Welcome to Zork!' lies here.",
-        "InventoryDescription": "A welcome mat."
+        "InventoryDescription": "A welcome mat.",
+        "Weapon": false
       },
       {
         "Name": "Mailbox",
         "LookDescription": "There is a small mailbox here.",
-        "InventoryDescription": "A small mailbox."
+        "InventoryDescription": "A small mailbox.",
+        "Weapon": false
       },
       {
         "Name": "Leaves",
         "LookDescription": "There is a pile of leaves here.",
-        "InventoryDescription": "A pile of leaves."
+        "InventoryDescription": "A pile of leaves.",
+        "Weapon": false
+      },
+      {
+        "Name": "Sword",
+        "LookDescription": "There is a old sword thrown in the field.",
+        "InventoryDescription": "A pile of leaves.",
+        "Weapon": true,
+        "Damage": 2
       }
     ],
+
+    "Enemies": [
+      {
+        "Name": "Slime",
+        "Description": "There is a green slime monster here",
+        "HitPoints": 3
+      },
+      {
+        "Name": "Goblin",
+        "Description": "There is a goblin holding a bat",
+        "HitPoints": 2
+      }
+    ],
+
     "Rooms": [
       {
         "Name": "West of House",
@@ -30,6 +54,10 @@
         "InventoryNames": [
           "Mat",
           "Mailbox"
+        ],
+
+        "EnemyNames": [
+          "Slime"
         ]
       },
       {
@@ -39,7 +67,11 @@
           "North": "Forest 2",
           "East": "Behind House",
           "West": "West of House"
-        }
+        },
+
+        "EnemyNames": [
+          "Goblin"
+        ]
       },
       {
         "Name": "South of House",
