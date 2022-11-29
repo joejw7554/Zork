@@ -23,7 +23,7 @@
       {
         "Name": "Sword",
         "LookDescription": "There is a old sword thrown in the field.",
-        "InventoryDescription": "A pile of leaves.",
+        "InventoryDescription": "A old sword",
         "Weapon": true,
         "Damage": 2
       }
@@ -53,7 +53,8 @@
         },
         "InventoryNames": [
           "Mat",
-          "Mailbox"
+          "Mailbox",
+          "Sword"
         ],
 
         "EnemyNames": [

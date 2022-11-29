@@ -120,8 +120,20 @@ namespace Zork.Common
                 case Commands.Reward:
                     Player.Score += 1;
                     break;
+
                 case Commands.Score:
                     Output.WriteLine($"Your socre is {Player.Score} , your move is {Player.Moves}");
+                    break;
+
+                case Commands.Attack:
+                    if(string.IsNullOrEmpty(subject))
+                    {
+                        Output.WriteLine("This command requires a target");
+                    }
+                    else
+                    {
+                        Attack(subject);
+                    }
                     break;
 
                 default:
@@ -184,11 +196,23 @@ namespace Zork.Common
             }
         }
 
-        void Attack()
+        void Attack(string enemyName)
         {
+            //if true damage calculation
+            //Output depending on if it's dead or not
+            Enemy targetToAttack = Player.CurrentRoom.Enemy.FirstOrDefault(target => string.Compare(target.Name, enemyName, true) == 0); //Find Valid Enemy
+            if(targetToAttack == null)
+            {
+                Output.WriteLine("You can't see any such thing.");
+            }
+            else
+            {
+                Player.CurrentRoom.
+                //Damage calculation
+                //
+            }
 
         }
-
         private static Commands ToCommand(string commandString) => Enum.TryParse(commandString, true, out Commands result) ? result : Commands.Unknown;
     }
 }
