@@ -163,6 +163,10 @@ namespace Zork.Common
             {
                 Output.WriteLine(item.LookDescription);
             }
+            foreach(Enemy enemy in Player.CurrentRoom.Enemy)
+            {
+                Output.WriteLine(enemy.Description);
+            }
 
         }
 
@@ -198,18 +202,38 @@ namespace Zork.Common
 
         void Attack(string enemyName)
         {
-            //if true damage calculation
             //Output depending on if it's dead or not
-            Enemy targetToAttack = Player.CurrentRoom.Enemy.FirstOrDefault(target => string.Compare(target.Name, enemyName, true) == 0); //Find Valid Enemy
-            if(targetToAttack == null)
+            Enemy target = Player.CurrentRoom.Enemy.FirstOrDefault(target => string.Compare(target.Name, enemyName, true) == 0); //Find Valid Enemy
+            Item itemToAttack = null;
+            foreach(var validWeapon in Player.Inventory)
+            {
+                if(validWeapon.Weapon==true)
+                {
+                    itemToAttack = validWeapon;
+                }
+            }
+
+            if(target == null)
             {
                 Output.WriteLine("You can't see any such thing.");
             }
+            else if(target!=null && itemToAttack==null)
+            {
+                Output.WriteLine("You can't attack the enemy withiout a valid weapon.");
+            }
             else
             {
-                Player.CurrentRoom.
-                //Damage calculation
-                //
+                Player.CurrentRoom.TakeDamage(target, itemToAttack);
+
+                if(target.HitPoints<=0)
+                {
+                    Output.WriteLine($"The {target.Name} is finally dead");
+                    Player.CurrentRoom.RemoveEnemyFromRoom(target);
+                }
+                else
+                {
+                    Output.WriteLine($"The {target.Name} is severly injured");
+                }
             }
 
         }

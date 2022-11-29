@@ -4,7 +4,7 @@
     {
         public string Name { get; }
         public string Description { get; }
-        public int HitPoints { get; }
+        public int HitPoints { get; set; }
 
 
         public Enemy(string name, string description, int hitPoints)

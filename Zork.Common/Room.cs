@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Zork.Common
 {
@@ -26,6 +27,7 @@ namespace Zork.Common
         public IEnumerable<Enemy> Enemy => _enemies;
 
         string[] EnemyNames { get; set; }
+
 
         public Room(string name, string description, Dictionary<Directions, string> neighborNames, string[] inventoryNames, string[] enemyNames)
         {
@@ -63,7 +65,7 @@ namespace Zork.Common
         public override int GetHashCode() => Name.GetHashCode();
 
         public void UpdateNeighbors(World world)
-        {            
+        {
             foreach (var neighborName in NeighborNames)
             {
                 _neighbors.Add(neighborName.Key, world.RoomsByName[neighborName.Value]);
@@ -84,7 +86,7 @@ namespace Zork.Common
 
         public void UpdateEnemies(World world)
         {
-            foreach(var enemyName in EnemyNames)
+            foreach (var enemyName in EnemyNames)
             {
                 _enemies.Add(world.EnemiesByname[enemyName]);
             }
@@ -110,6 +112,19 @@ namespace Zork.Common
             }
         }
 
+        public void TakeDamage(Enemy target, Item weapon)
+        {
+            target.HitPoints -= weapon.Damage;
+        }
+
+        public void RemoveEnemyFromRoom(Enemy target)
+        {
+            if (_enemies.Remove(target) == false)
+            {
+                throw new Exception("target does not exist");
+            }
+        }
+
 
 
 
@@ -118,5 +133,7 @@ namespace Zork.Common
         private readonly List<Item> _inventory;
         private readonly Dictionary<Directions, Room> _neighbors;
         private readonly List<Enemy> _enemies;
+
+
     }
 }
