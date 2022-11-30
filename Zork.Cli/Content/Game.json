@@ -46,6 +46,11 @@
         "Name": "Goblin",
         "Description": "There is a goblin holding a bat",
         "HitPoints": 4
+      },
+      {
+        "Name": "Dragon",
+        "Description": "There is a giant dragon breathing fire",
+        "HitPoints": 12
       }
     ],
 
@@ -88,7 +93,10 @@
         "NeighborNames": {
           "East": "Behind House",
           "West": "West of House"
-        }
+        },
+        "EnemyNames": [
+          "Dragon"
+        ]
       },
       {
         "Name": "Behind House",
