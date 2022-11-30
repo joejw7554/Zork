@@ -45,6 +45,8 @@ namespace Zork.Common
 
             string verb;
             string subject = null;
+            string preposition = null;
+            string noun = null;
             if (commandTokens.Length == 0)
             {
                 return;
@@ -53,10 +55,17 @@ namespace Zork.Common
             {
                 verb = commandTokens[0];
             }
+            else if (commandTokens.Length == 2)
+            {
+                verb = commandTokens[0];
+                subject = commandTokens[1];
+            }
             else
             {
                 verb = commandTokens[0];
                 subject = commandTokens[1];
+                preposition = commandTokens[commandTokens.Length - 2];
+                noun = commandTokens[commandTokens.Length - 1];
             }
 
             Room previousRoom = Player.CurrentRoom;
@@ -126,13 +135,17 @@ namespace Zork.Common
                     break;
 
                 case Commands.Attack:
-                    if(string.IsNullOrEmpty(subject))
+                    if (string.IsNullOrEmpty(subject))
                     {
                         Output.WriteLine("This command requires a target");
                     }
+                    else if (string.IsNullOrEmpty(noun))
+                    {
+                        Output.WriteLine("with what?");
+                    }
                     else
                     {
-                        Attack(subject);
+                        Attack(subject, preposition, noun);
                     }
                     break;
 
@@ -163,7 +176,7 @@ namespace Zork.Common
             {
                 Output.WriteLine(item.LookDescription);
             }
-            foreach(Enemy enemy in Player.CurrentRoom.Enemy)
+            foreach (Enemy enemy in Player.CurrentRoom.Enemy)
             {
                 Output.WriteLine(enemy.Description);
             }
@@ -200,42 +213,54 @@ namespace Zork.Common
             }
         }
 
-        void Attack(string enemyName)
+        void Attack(string enemyName, string preposition, string noun)
         {
-            //Output depending on if it's dead or not
             Enemy target = Player.CurrentRoom.Enemy.FirstOrDefault(target => string.Compare(target.Name, enemyName, true) == 0); //Find Valid Enemy
-            Item itemToAttack = null;
-            foreach(var validWeapon in Player.Inventory)
+            Item item = Player.Inventory.FirstOrDefault(item => string.Compare(item.Name, noun, true) == 0);
+            if (string.Compare(preposition, "with", true) == 0)
             {
-                if(validWeapon.Weapon==true)
-                {
-                    itemToAttack = validWeapon;
-                }
-            }
 
-            if(target == null)
-            {
-                Output.WriteLine("You can't see any such thing.");
-            }
-            else if(target!=null && itemToAttack==null)
-            {
-                Output.WriteLine("You can't attack the enemy withiout a valid weapon.");
-            }
-            else
-            {
-                Player.CurrentRoom.TakeDamage(target, itemToAttack);
-
-                if(target.HitPoints<=0)
+                if (target == null)
                 {
-                    Output.WriteLine($"The {target.Name} is finally dead");
-                    Player.CurrentRoom.RemoveEnemyFromRoom(target);
+                    Output.WriteLine("You can't see any such thing.");
+                    return;
                 }
+
+
+                else if (target != null && item == null)
+                {
+
+                    Output.WriteLine($"You don't have the {noun}.");
+                    return;
+
+                }
+
+                else if (target != null && item != null && item.Weapon == false)
+                {
+                    Output.WriteLine($"You can't attack the {enemyName} with {item.Name}.");
+                    return;
+                }
+
                 else
                 {
-                    Output.WriteLine($"The {target.Name} is severly injured");
+                    target.TakeDamage(item.Damage);
+
+                    if (target.HitPoints <= 0)
+                    {
+                        Output.WriteLine($"The {target.Name} is finally dead");
+                        Player.CurrentRoom.RemoveEnemyFromRoom(target);
+                    }
+                    else
+                    {
+                        Output.WriteLine($"The {target.Name} is severly injured. The {target.Name} has {target.HitPoints} HP left");
+                    }
                 }
             }
 
+            else
+            {
+                Output.WriteLine("Attack command tip: attack [Subject] with [Noun]");
+            }
         }
         private static Commands ToCommand(string commandString) => Enum.TryParse(commandString, true, out Commands result) ? result : Commands.Unknown;
     }

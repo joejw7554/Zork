@@ -21,11 +21,18 @@
         "Weapon": false
       },
       {
-        "Name": "Sword",
-        "LookDescription": "There is a old sword thrown in the field.",
-        "InventoryDescription": "A old sword",
+        "Name": "bat",
+        "LookDescription": "There is a wooden bat thrown in the field.",
+        "InventoryDescription": "A wodden bat",
         "Weapon": true,
-        "Damage": 2
+        "Damage": 1
+      },
+      {
+        "Name": "Sword",
+        "LookDescription": "There is a shiny metalsword thrown in the field.",
+        "InventoryDescription": "A metal sword",
+        "Weapon": true,
+        "Damage": 4
       }
     ],
 
@@ -38,7 +45,7 @@
       {
         "Name": "Goblin",
         "Description": "There is a goblin holding a bat",
-        "HitPoints": 2
+        "HitPoints": 4
       }
     ],
 
@@ -54,6 +61,7 @@
         "InventoryNames": [
           "Mat",
           "Mailbox",
+          "bat",
           "Sword"
         ],
 

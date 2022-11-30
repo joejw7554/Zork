@@ -112,11 +112,6 @@ namespace Zork.Common
             }
         }
 
-        public void TakeDamage(Enemy target, Item weapon)
-        {
-            target.HitPoints -= weapon.Damage;
-        }
-
         public void RemoveEnemyFromRoom(Enemy target)
         {
             if (_enemies.Remove(target) == false)
