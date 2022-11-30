@@ -29,7 +29,7 @@
       },
       {
         "Name": "Sword",
-        "LookDescription": "There is a shiny metalsword thrown in the field.",
+        "LookDescription": "There is a sharp metal sword thrown in the field.",
         "InventoryDescription": "A metal sword",
         "Weapon": true,
         "Damage": 4
